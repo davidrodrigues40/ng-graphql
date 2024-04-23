@@ -1,0 +1,11 @@
+@import './variables';
+
+.section {
+    padding: $gap;
+
+    &-column {
+        display: flex;
+        flex-direction: column;
+        row-gap: $gap;
+    }
+}
