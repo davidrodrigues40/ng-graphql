@@ -1,0 +1,79 @@
+<div class="display-flex flex-direction--row flex-col-gap--xl">
+    <div class="section">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    <h2>New Book</h2>
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="display-flex flex-direction--column flex-row-gap--base">
+                    <mat-form-field>
+                        <mat-label>Title</mat-label>
+                        <input matInput
+                               [(ngModel)]="book.title">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Pages</mat-label>
+                        <input matInput
+                               (change)="changePageCount($event)">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Author</mat-label>
+                        <mat-select [(value)]="book.author">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let author of authors$ | async"
+                                        [value]="author">
+                                {{author.firstName}} {{author.lastName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-flat-button
+                        color="primary"
+                        (click)="addBook()">Save Book</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="section">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    <h2>Preview</h2>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="display-flex flex-direction--column flex-row-gap--base">
+                    <div class="add-book-columns">
+                        <div class="add-book-left-column">
+                            <label>Title:</label>
+                        </div>
+                        <div class="add-book-right-column">
+                            <span>{{book.title}}</span>
+                        </div>
+                    </div>
+                    <div class="add-book-columns">
+                        <div class="add-book-left-column">
+                            <label>Pages:</label>
+                        </div>
+                        <div class="add-book-right-column">
+                            <span>{{book.pageCount}}</span>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="add-book-columns">
+                        <div class="add-book-left-column">
+                            <label>Author: </label>
+                        </div>
+                        <div class="add-book-right-column">
+                            <span>{{book.author.firstName}} {{book.author.lastName}}</span>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

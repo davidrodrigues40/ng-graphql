@@ -1,7 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
 @import 'src/assets/variables';
+@import 'src/assets/themes/theme';
+@import 'src/assets/flex/flex';
 
 body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: $font-size;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: $font-size;
+  margin: 0;
+  padding: $gap;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  margin-bottom: $gap;
+
+  & a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+a,
+a:visited {
+  color: map-get($map: $md-primary, $key: 400);
 }

@@ -1,0 +1,30 @@
+<section class="section section-column">
+    <div class="display-flex flex-col-gap--base justify-content--space-between align-items--baseline">
+        <div class="display-flex flex-col-gap--base align-items--baseline">
+            <label>Search Books</label>
+            <mat-form-field>
+                <mat-label>Search Author</mat-label>
+                <input matInput
+                       [placeholder]="placeholder"
+                       (keypress)="enterPressed($event, buildSearchQuery(), books$)"
+                       [(ngModel)]="searchTerm">
+            </mat-form-field>
+            <button mat-button
+                    (click)="clearSearch()">clear search</button>
+        </div>
+        <div class="display-flex flex-col-gap--base align-items--baseline">
+
+        </div>
+        <button mat-flat-button
+                (click)="addBook()"
+                color="primary">Add Book</button>
+    </div>
+    <ng-container *ngFor="let book of books$ | async">
+        <mat-card>
+            <div class="book">
+                <app-book-view [book]="book"
+                               class="section section-column"></app-book-view>
+            </div>
+        </mat-card>
+    </ng-container>
+</section>

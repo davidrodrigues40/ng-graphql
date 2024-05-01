@@ -1,11 +1,16 @@
 @import './variables';
 
 .section {
-    padding: $gap;
+    display: flex;
 
     &-column {
-        display: flex;
         flex-direction: column;
         row-gap: $gap;
+    }
+
+    &-row {
+        flex-direction: row;
+        column-gap: $gap;
+        align-items: baseline;
     }
 }
