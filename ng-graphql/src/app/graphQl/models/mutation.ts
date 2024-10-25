@@ -1,15 +1,15 @@
 import { QueryStructures } from "src/app/graphQl/query-structures";
-import { QueryBase, GraphQlMutation, Parameter } from "../common/graph-gl";
+import { QueryBase, GraphQlMutation, Parameter } from "../abstractions/graph-gl";
 import { GraphQlQuery } from "./graphql-query";
-import { ContractsParametersVariables, GraphQlRequest } from "../common/graphql-request";
+import { ContractsParametersVariables, GraphQlRequest } from "./graphql-request";
 
 export class Mutation extends QueryBase implements GraphQlMutation {
     parameter!: Parameter;
     readonly action: 'insert' | 'udate' = 'insert';
 
-    graphQlQuery(): GraphQlQuery {
-        const cpv: ContractsParametersVariables = GraphQlRequest.generateContract([this.parameter]);
-        console.log("cpv", cpv);
+    graphQlSearch(): GraphQlQuery {
+        const cpv: ContractsParametersVariables = GraphQlRequest.generateConsParamsVars([this.parameter]);
+
         return {
             query: QueryStructures.mutation
                 .replace('{{ql-method}}', this.action)

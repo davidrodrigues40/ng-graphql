@@ -1,5 +1,5 @@
 import { Author } from "./author";
-import { GUID } from "../../custom-types/types";
+import { GUID } from "../custom-types/types";
 
 export interface Book {
     id: GUID,

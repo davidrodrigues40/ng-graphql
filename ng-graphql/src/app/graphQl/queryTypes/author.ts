@@ -1,4 +1,4 @@
-import { GUID } from "../../custom-types/types";
+import { GUID } from "../custom-types/types";
 
 export interface Author {
     id: GUID,

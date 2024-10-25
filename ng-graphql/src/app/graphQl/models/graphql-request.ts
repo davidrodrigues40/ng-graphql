@@ -1,7 +1,7 @@
-import { Parameter, Variables } from "./graph-gl";
+import { Parameter, Variables } from "../abstractions/graph-gl";
 
 export class GraphQlRequest {
-    static generateContract(parameters: Parameter[]): ContractsParametersVariables {
+    static generateConsParamsVars(parameters: Parameter[]): ContractsParametersVariables {
         var output: ContractsParametersVariables = new ContractsParametersVariables();
 
         parameters

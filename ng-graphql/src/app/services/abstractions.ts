@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { GraphQlQuery } from "../models/graph-ql/graphql-query";
+import { GraphQlQuery } from "../graphQl/models/graphql-query";
 
 export abstract class SearchService {
     abstract Search(query: GraphQlQuery): Observable<any>;

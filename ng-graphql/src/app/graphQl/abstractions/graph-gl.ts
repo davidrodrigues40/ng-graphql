@@ -1,8 +1,8 @@
-import { GraphQlQuery } from "../graph-ql/graphql-query";
+import { GraphQlQuery } from "../models/graphql-query";
 
 export abstract class GraphQlApiCall {
     apiMethod: string = '';
-    abstract graphQlQuery(): GraphQlQuery;
+    abstract graphQlSearch(): GraphQlQuery;
 }
 
 export abstract class QueryBase extends GraphQlApiCall {
@@ -15,11 +15,12 @@ export abstract class GraphQlMutation extends GraphQlApiCall {
 }
 
 export interface Parameter {
+    term: string;
     field: string;
     type: string;
-    value: string | number | Date | object
+    value: string | object | undefined
 }
 
 export interface Variables {
-    [key: string]: string | number | Date | object;
+    [key: string]: string | object | undefined;
 }

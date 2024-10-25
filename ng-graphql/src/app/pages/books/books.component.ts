@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { PageComponent } from '../page.component';
-import { GraphQlQuery } from 'src/app/models/graph-ql/graphql-query';
-import { AllQuery, Query } from 'src/app/models/graph-ql/query';
+import { GraphQlQuery, QueryOperator, WhereClause } from 'src/app/graphQl/models/graphql-query';
+import { AllQuery, IQuery } from 'src/app/graphQl/models/query';
 import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
 import { Router } from '@angular/router';
 import { BookViewComponent } from 'src/app/views/book-view/book-view.component';
 import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/bread-crumb.service';
 import { Subject } from 'rxjs';
-import { Book } from 'src/app/graphQl/queryModels/book';
+import { Book } from 'src/app/graphQl/queryTypes/book';
+import { QueryBuilder } from 'src/app/services/query-builder/query-builder';
 
 @Component({
   selector: 'app-books',
@@ -20,16 +21,30 @@ import { Book } from 'src/app/graphQl/queryModels/book';
 })
 export class BooksComponent extends PageComponent implements OnInit {
   placeholder: string = 'ex. Dean Koontz';
-  searchQuery: Query = new Query();
+  searchQuery: IQuery = {
+    queryName: '',
+    item: '',
+    parameter: {
+      term: '',
+      field: '',
+      type: '',
+      value: undefined
+    },
+    searchTerm: '',
+    returnValue: '',
+    whereClause: new WhereClause,
+    returnProperties: ''
+  };
   allQuery: AllQuery = new AllQuery();
   books$: Subject<Book[]> = new Subject<Book[]>();
 
   constructor(private readonly _router: Router,
+    private readonly _queryBuilder: QueryBuilder,
     private readonly _g: GraphQlService,
     private readonly _b: BreadCrumbService) { super(_g, _b); }
 
   ngOnInit(): void {
-    this.doQuery(this.queries['all'], 'books', this.books$);
+    this.doQuery(this.generateAllQuery(), 'books', this.books$);
     this.setBreadcrumbs([{
       name: 'Books',
       routerLink: 'books'
@@ -38,13 +53,14 @@ export class BooksComponent extends PageComponent implements OnInit {
 
   clearSearch(): void {
     this.searchTerm = '';
-    this.doQuery(this.queries['all'], 'books', this.books$);
+    this.doQuery(this.generateAllQuery(), 'books', this.books$);
   }
 
   buildSearchQuery(): GraphQlQuery {
     if (this.searchTerm)
-      return this.queries['search'];
-    return this.queries['all'];
+      return this.generateSearchQuery();
+
+    return this.generateAllQuery();
   }
 
   addBook(): void {
@@ -52,53 +68,47 @@ export class BooksComponent extends PageComponent implements OnInit {
   }
 
   generateSearchQuery(): GraphQlQuery {
-    var query: Query = {
-      ...this.searchQuery,
-      qlMethod: 'getBooks',
-      apiMethod: 'booksByAuthor',
-      parameters: [
-        { field: 'authorLastName', type: 'String', value: this.searchTerm as string }
-      ],
-      returnProperties: '{id,title,author{firstName,lastName}}',
-      graphQlQuery: this.searchQuery.graphQlQuery
+    const authorClause: WhereClause = {
+      field: 'name',
+      subClause: null,
+      term: 'term',
+      operator: QueryOperator.contains
+    };
+    const where: WhereClause = {
+      field: 'author',
+      subClause: authorClause,
+      operator: QueryOperator.none,
+      term: this.searchTerm as string
     };
 
-    return query.graphQlQuery();
+    const query: IQuery = {
+      ...this.searchQuery,
+      queryName: 'getBooksByAuthor',
+      item: 'books',
+      parameter: {
+        term: 'term',
+        field: 'name',
+        type: 'String!',
+        value: this.searchTerm
+      },
+      returnProperties: '{id,title,author{firstName,lastName}}',
+      whereClause: where,
+      returnValue: 'books'
+    };
+    this._queryBuilder.loadBuilder(query);
+
+    return this._queryBuilder.buildQuery();
   }
 
   generateAllQuery(): GraphQlQuery {
-    var query: AllQuery = {
+    const query: AllQuery = {
       ...this.allQuery,
+      queryName: 'getBooks',
       objectName: 'books',
       returnProperties: '{id,title,author{firstName,lastName}}',
-      graphQlQuery: this.allQuery.graphQlQuery
+      graphQlSearch: this.allQuery.graphQlSearch
     }
 
-    console.log('query', query.graphQlQuery());
-    return query.graphQlQuery();
+    return query.graphQlSearch();
   }
-
-  get queries(): { [key: string]: GraphQlQuery } {
-    return {
-      search: this.generateSearchQuery(),
-      all: this.generateAllQuery(),
-      insert: {
-        query: `mutation 
-        addBook(newBook: {
-          id: "00000000-0000-0000-0000-000000000000",
-          title: "New Book", 
-          pageSize: 100, 
-          author: { 
-            id: "de1c2993-33f7-4bc2-a4ac-150ad682877a",
-            firstName: "John",
-            lastName: "Doe"
-          }
-        }) {
-          id,
-          title
-          }
-        }`
-      }
-    };
-  };
 }

@@ -1,10 +1,11 @@
 <section class="section section-column">
     <div class="display-flex flex-col-gap--base justify-content--space-between align-items--baseline">
         <div class="display-flex flex-col-gap--base align-items--baseline">
-            <label>Search Books</label>
+            <label for="search-input">Search Books</label>
             <mat-form-field>
                 <mat-label>Search Author</mat-label>
-                <input matInput
+                <input id="search-input"
+                       matInput
                        [placeholder]="placeholder"
                        (keypress)="enterPressed($event, buildSearchQuery(), books$)"
                        [(ngModel)]="searchTerm">

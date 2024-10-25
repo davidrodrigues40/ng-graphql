@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable, map } from "rxjs";
-import { GraphQlResponse } from "../models/graph-ql/graphQlResponse";
-import { GraphQlQuery } from "../models/graph-ql/graphql-query";
+import { GraphQlResponse } from "../graphQl/models/graphql-response";
+import { GraphQlQuery } from "../graphQl/models/graphql-query";
 
 export abstract class ApiService {
     abstract url: string;

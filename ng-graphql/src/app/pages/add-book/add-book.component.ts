@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { EmptyGUID } from 'src/app/custom-types/types';
-import { Author } from 'src/app/graphQl/queryModels/author';
-import { Book } from 'src/app/graphQl/queryModels/book';
-import { Mutation } from 'src/app/models/graph-ql/mutation';
-import { AllQuery } from 'src/app/models/graph-ql/query';
+import { EmptyGUID } from 'src/app/graphQl/custom-types/types';
+import { Author } from 'src/app/graphQl/queryTypes/author';
+import { Book } from 'src/app/graphQl/queryTypes/book';
+import { Mutation } from 'src/app/graphQl/models/mutation';
+import { AllQuery } from 'src/app/graphQl/models/query';
 import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
 import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/bread-crumb.service';
 import { PageComponent } from '../page.component';
@@ -52,24 +52,25 @@ export class AddBookComponent extends PageComponent implements OnInit {
   }
 
   addBook(): void {
-    var mutation: Mutation = {
+    const mutation: Mutation = {
       ...this._insertQuery,
       apiMethod: 'addBook',
       returnProperties: '{title, pageCount, author {firstName, lastName}}',
       parameter: {
+        term: '',
         field: 'newBook',
         type: 'BookInput',
         value: this.book
       },
-      graphQlQuery: this._insertQuery.graphQlQuery,
+      graphQlSearch: this._insertQuery.graphQlSearch,
     };
 
-    this.doQuery(mutation.graphQlQuery(), 'book', this.insertedBook$)
+    this.doQuery(mutation.graphQlSearch(), 'book', this.insertedBook$)
   }
 
   changePageCount(event: Event): void {
     const input: HTMLInputElement = <HTMLInputElement>event.target;
-    var value: number = parseInt(input.value);
+    const value: number = parseInt(input.value);
 
     if (!input || isNaN(value))
       return;
@@ -78,8 +79,8 @@ export class AddBookComponent extends PageComponent implements OnInit {
   }
 
   properCase(value: string): string {
-    var inputs = value.split(' ');
-    var outputs: string[] = [];
+    const inputs = value.split(' ');
+    const outputs: string[] = [];
 
     inputs.forEach(input => {
       outputs.push(input.substring(0, 1).toUpperCase() + input.substring(1, input.length - 1).toLowerCase());
@@ -89,13 +90,13 @@ export class AddBookComponent extends PageComponent implements OnInit {
   }
 
   getAuthors(): void {
-    var query: AllQuery = {
+    const query: AllQuery = {
       ...this._authorQuery,
       objectName: 'authors',
       returnProperties: '{firstName,lastName, id}',
-      graphQlQuery: this._authorQuery.graphQlQuery
-    }
+      graphQlSearch: this._authorQuery.graphQlSearch
+    };
 
-    this.doQuery(query.graphQlQuery(), 'authors', this.authors$);
+    this.doQuery(query.graphQlSearch(), 'authors', this.authors$);
   }
 }

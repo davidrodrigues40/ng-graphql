@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { EMPTY, Observable, Subject, map } from 'rxjs';
-import { GraphQlQuery } from '../models/graph-ql/graphql-query';
+import { GraphQlQuery } from '../graphQl/models/graphql-query';
 import { BreadCrumbService } from '../services/navigation/bread-crumbs/bread-crumb.service';
 import { BreadCrumb } from '../services/navigation/bread-crumb';
 import { GraphQlService } from '../services/graph-ql/graphql.service';
@@ -15,20 +15,20 @@ export class PageComponent {
   query?: GraphQlQuery;
   response?: any;
 
-  constructor(private _searchService: GraphQlService,
+  constructor(private _graphQlService: GraphQlService,
     private readonly _breadcrumbService: BreadCrumbService
   ) { }
 
   get doQuery$(): Observable<any> {
     if (this.query)
-      return this._searchService.DoQuery(this.query);
+      return this._graphQlService.DoQuery(this.query);
 
     return EMPTY;
   }
 
   enterPressed(event: KeyboardEvent, query: GraphQlQuery, observable: Subject<any>): void {
     if (event.key.toLowerCase() === 'enter')
-      this.doQuery(query, 'booksByAuthor', observable);
+      this.doQuery(query, 'books', observable);
   }
 
   doQuery(query: GraphQlQuery, objectName: string, returnObservable: Subject<any>): void {

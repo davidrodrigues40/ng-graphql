@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api-service';
 import { HttpClient } from '@angular/common/http';
-import { GraphQlQuery } from 'src/app/models/graph-ql/graphql-query';
+import { GraphQlQuery } from 'src/app/graphQl/models/graphql-query';
 import { Observable } from 'rxjs';
 
 @Injectable()
