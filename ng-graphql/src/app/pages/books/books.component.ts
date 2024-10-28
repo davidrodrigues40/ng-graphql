@@ -3,12 +3,12 @@ import { PageComponent } from '../page.component';
 import { GraphQlQuery, QueryOperator, WhereClause } from 'src/app/graphQl/models/graphql-query';
 import { AllQuery, IQuery } from 'src/app/graphQl/models/query';
 import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
-import { Router } from '@angular/router';
 import { BookViewComponent } from 'src/app/views/book-view/book-view.component';
 import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/bread-crumb.service';
 import { Subject } from 'rxjs';
 import { Book } from 'src/app/graphQl/queryTypes/book';
 import { QueryBuilder } from 'src/app/services/query-builder/query-builder';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-books',
