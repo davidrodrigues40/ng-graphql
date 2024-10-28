@@ -1,3 +1,4 @@
+@use "sass:map";
 @import 'src/assets/variables';
 @import 'src/assets/themes/theme';
 @import 'src/assets/flex/flex';
@@ -12,11 +13,12 @@ body {
 html,
 body {
   height: 100%;
+  color: map.get($md-primary, 300) !important;
 }
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .banner {

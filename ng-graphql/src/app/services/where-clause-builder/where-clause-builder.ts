@@ -10,8 +10,9 @@ export class WhereClauseBuilder {
   build(clause: WhereClause): string {
     if (!clause)
       return '';
+    console.log(typeof clause.subClause);
 
-    if (typeof clause.subClause === 'object')
+    if (clause.subClause)
       return this.buildComplex(clause);
     else
       return this.buildSimple(clause);
@@ -28,6 +29,7 @@ export class WhereClauseBuilder {
   }
 
   private buildCondition(input: WhereClause) {
+    //query getBooksByTitle($term: String!) { books(where: { title: { contains: $c}}) {id,title,author{firstName,lastName}}}
     return `{ ${input.field}: { ${input.operator.toString()}: $${input.term}}}`
   }
 }

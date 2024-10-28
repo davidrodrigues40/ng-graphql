@@ -1,7 +1,15 @@
+@use "sass:map";
 @import 'src/assets/formatting';
+@import 'src/assets/themes/theme';
+@import 'src/assets/variables';
 
 label {
-    font-weight: 700;
+    color: map.get($md-secondary, 100);
+    margin-right: $gap;
+}
+
+.value {
+    color: map.get($md-primary, 100);
 }
 
 .section {

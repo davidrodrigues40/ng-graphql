@@ -20,7 +20,7 @@ export class QueryBuilder implements IQuery {
   returnValue: string = '';
   whereClause: WhereClause = {
     field: '',
-    subClause: '',
+    subClause: null,
     term: '',
     operator: QueryOperator.none
   };
@@ -46,6 +46,8 @@ export class QueryBuilder implements IQuery {
   }
 
   private buildInnerQuery(): string {
+    console.log('this', this);
+
     return `query ${this.queryName}($${this.parameter.term}: ${this.parameter.type}) { ${this.item}(${this.whereClauseBuilder.build(this.whereClause)}) ${this.returnProperties}}`;
   }
 }

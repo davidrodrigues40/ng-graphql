@@ -7,7 +7,7 @@ export class GraphQlQuery {
 
 export class WhereClause {
     field: string = '';
-    subClause: string | WhereClause | null = '';
+    subClause: WhereClause | null = null;
     term: string = '';
     operator: QueryOperator = QueryOperator.none;
 }

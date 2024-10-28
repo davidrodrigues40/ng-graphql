@@ -11,7 +11,8 @@ import { GraphQlService } from '../services/graph-ql/graphql.service';
   standalone: true
 })
 export class PageComponent {
-  searchTerm?: string;
+  authorSearchTerm?: string;
+  bookSearchTerm?: string;
   query?: GraphQlQuery;
   response?: any;
 
@@ -24,11 +25,6 @@ export class PageComponent {
       return this._graphQlService.DoQuery(this.query);
 
     return EMPTY;
-  }
-
-  enterPressed(event: KeyboardEvent, query: GraphQlQuery, observable: Subject<any>): void {
-    if (event.key.toLowerCase() === 'enter')
-      this.doQuery(query, 'books', observable);
   }
 
   doQuery(query: GraphQlQuery, objectName: string, returnObservable: Subject<any>): void {

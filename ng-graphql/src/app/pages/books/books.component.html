@@ -4,11 +4,19 @@
             <label for="search-input">Search Books</label>
             <mat-form-field>
                 <mat-label>Search Author</mat-label>
-                <input id="search-input"
+                <input id="search-author-input"
                        matInput
-                       [placeholder]="placeholder"
-                       (keypress)="enterPressed($event, buildSearchQuery(), books$)"
-                       [(ngModel)]="searchTerm">
+                       [placeholder]="authorPlaceholder"
+                       (keypress)="enterKeyPressed($event, 'author', books$)"
+                       [(ngModel)]="authorSearchTerm">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Search By Title</mat-label>
+                <input id="search-title-input"
+                       matInput
+                       [placeholder]="titlePlaceholder"
+                       (keypress)="enterKeyPressed($event, 'book title', books$)"
+                       [(ngModel)]="bookSearchTerm">
             </mat-form-field>
             <button mat-button
                     (click)="clearSearch()">clear search</button>
