@@ -1,39 +1,85 @@
-<section class="section section-column">
-    <div class="display-flex flex-col-gap--base justify-content--space-between align-items--baseline">
-        <div class="display-flex flex-col-gap--base align-items--baseline">
-            <label for="search-input">Search Books</label>
-            <mat-form-field>
-                <mat-label>Search Author</mat-label>
-                <input id="search-author-input"
-                       matInput
-                       [placeholder]="authorPlaceholder"
-                       (keypress)="enterKeyPressed($event, 'author', books$)"
-                       [(ngModel)]="authorSearchTerm">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Search By Title</mat-label>
-                <input id="search-title-input"
-                       matInput
-                       [placeholder]="titlePlaceholder"
-                       (keypress)="enterKeyPressed($event, 'book title', books$)"
-                       [(ngModel)]="bookSearchTerm">
-            </mat-form-field>
-            <button mat-button
-                    (click)="clearSearch()">clear search</button>
-        </div>
-        <div class="display-flex flex-col-gap--base align-items--baseline">
-
-        </div>
-        <button mat-flat-button
-                (click)="addBook()"
-                color="primary">Add Book</button>
-    </div>
-    <ng-container *ngFor="let book of books$ | async">
-        <mat-card>
-            <div class="book">
-                <app-book-view [book]="book"
-                               class="section section-column"></app-book-view>
+<section class="page section section-row">
+   <div class="display-flex section-column flex-col-gap--base align-items--baseline">
+      <div class="display-flex flex-col-gap--sm align-items--baseline">
+         <mat-form-field>
+            <mat-label>Search {{ searchType | titlecase }}</mat-label>
+            <input id="search-author-input"
+                   matInput
+                   [placeholder]="inputPlaceholder"
+                   (keypress)="enterKeyPressed($event)"
+                   [(ngModel)]="searchTerm" />
+         </mat-form-field>
+         <button mat-icon-button
+                 type="button"
+                 color="primary"
+                 (click)="search()">
+            <mat-icon>search</mat-icon>
+         </button>
+         <button mat-icon-button
+                 type="button"
+                 color="secondary"
+                 (click)="clearSearch()">
+            <mat-icon>close_small</mat-icon>
+         </button>
+      </div>
+      <div class="display-flex">
+         <div class="display-flex section-column filter">
+            <div>Search Type:</div>
+            <div>
+               <input type="radio"
+                      id="author-type"
+                      name="search-type"
+                      value="author"
+                      [checked]="searchType === 'author'"
+                      (change)="changeSearchType('author')" />
+               <label for="author-type">Author Name</label>
             </div>
-        </mat-card>
-    </ng-container>
+            <div>
+               <input type="radio"
+                      id="book-title-type"
+                      name="search-type"
+                      value="book-title"
+                      [checked]="searchType === 'book title'"
+                      (change)="changeSearchType('book title')" />
+               <label for="book-title-type">Book Title</label>
+            </div>
+         </div>
+      </div>
+      <div class="display-flex">
+         <div class="display-flex section-column filter">
+            <div>Condition:</div>
+            <div>
+               <input type="radio"
+                      id="condition-contains"
+                      name="condition"
+                      value="contains"
+                      [checked]="condition === 'contains'"
+                      (change)="changeCondition(operators.contains)" />
+               <label for="condition-contains">Contains</label>
+            </div>
+            <div>
+               <input type="radio"
+                      id="condition-equals"
+                      name="condition"
+                      value="eq"
+                      [checked]="condition === 'equals'"
+                      (change)="changeCondition(operators.equals)" />
+               <label for="condition-equals">Equals</label>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="section section-column">
+      <div>{{ searchType }} {{ condition }} {{ searchTerm }}</div>
+      <ng-container *ngFor="let book of books$ | async">
+         <div class="book">
+            <mat-card>
+               <div class="book">
+                  <app-book-view [book]="book"
+                                 class="section section-column"></app-book-view>
+               </div>
+            </mat-card>
+         </div>
+      </ng-container>
+   </div>
 </section>

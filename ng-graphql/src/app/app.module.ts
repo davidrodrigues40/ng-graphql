@@ -23,7 +23,7 @@ import { BreadCrumbsComponent } from './components/bread-crumbs/bread-crumbs.com
     MatSelectModule,
     RouterLink,
     RouterLinkActive,
-    RouterModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

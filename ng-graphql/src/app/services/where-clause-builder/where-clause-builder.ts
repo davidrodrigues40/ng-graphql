@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { WhereClause } from 'src/app/graphQl/models/graphql-query';
+import { QueryOperator, WhereClause } from 'src/app/graphQl/models/graphql-query';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,6 @@ export class WhereClauseBuilder {
   }
 
   private buildCondition(input: WhereClause) {
-    //query getBooksByTitle($term: String!) { books(where: { title: { contains: $c}}) {id,title,author{firstName,lastName}}}
-    return `{ ${input.field}: { ${input.operator.toString()}: $${input.term}}}`
+    return `{ ${input.field}: { ${QueryOperator.toQueryValue(input.operator)}: $${input.term}}}`
   }
 }

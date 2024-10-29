@@ -11,12 +11,11 @@ import { GraphQlService } from '../services/graph-ql/graphql.service';
   standalone: true
 })
 export class PageComponent {
-  authorSearchTerm?: string;
-  bookSearchTerm?: string;
+  searchTerm?: string;
   query?: GraphQlQuery;
   response?: any;
 
-  constructor(private _graphQlService: GraphQlService,
+  constructor(private readonly _graphQlService: GraphQlService,
     private readonly _breadcrumbService: BreadCrumbService
   ) { }
 

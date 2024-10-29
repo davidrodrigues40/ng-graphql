@@ -16,11 +16,6 @@ body {
   color: map.get($md-primary, 300) !important;
 }
 
-body {
-  margin: 0;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
 .banner {
   display: flex;
   align-items: center;
@@ -35,4 +30,15 @@ body {
 a,
 a:visited {
   color: map-get($map: $md-primary, $key: 400);
+}
+
+label,
+.label {
+  margin-right: $gap;
+  color: map-get($map: $md-secondary, $key: 200) !important;
+}
+
+.filter {
+  padding-bottom: $gap;
+  border-bottom: 1px solid map-get($map: $md-secondary, $key: 100);
 }

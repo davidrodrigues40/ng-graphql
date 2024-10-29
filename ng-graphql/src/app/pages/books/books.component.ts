@@ -20,9 +20,10 @@ import { Router } from '@angular/router';
   ]
 })
 export class BooksComponent extends PageComponent implements OnInit {
-  authorPlaceholder: string = 'ex. Dean Koontz';
-  titlePlaceholder: string = 'ex. Lord of the Rings';
-  searchQuery: IQuery = {
+  private readonly authorPlaceholder: string = 'ex. J. R. R. Tolkien';
+  private readonly bookTitlePlaceholder: string = 'ex. Lord of the Rings';
+  private readonly allQuery: AllQuery = new AllQuery();
+  private readonly searchQuery: IQuery = {
     queryName: '',
     item: '',
     parameter: {
@@ -36,13 +37,20 @@ export class BooksComponent extends PageComponent implements OnInit {
     whereClause: new WhereClause,
     returnProperties: ''
   };
-  allQuery: AllQuery = new AllQuery();
+
+  inputPlaceholder: string = this.authorPlaceholder;
+  searchType: 'author' | 'book title' = 'author';
+  condition: QueryOperator = QueryOperator.equals;
   books$: Subject<Book[]> = new Subject<Book[]>();
+
+  get operators(): typeof QueryOperator {
+    return QueryOperator;
+  }
 
   constructor(private readonly _router: Router,
     private readonly _queryBuilder: QueryBuilder,
-    private readonly _g: GraphQlService,
-    private readonly _b: BreadCrumbService) { super(_g, _b); }
+    private readonly _: GraphQlService,
+    private readonly __: BreadCrumbService) { super(_, __); }
 
   ngOnInit(): void {
     this.doQuery(this.generateAllQuery(), 'books', this.books$);
@@ -52,33 +60,26 @@ export class BooksComponent extends PageComponent implements OnInit {
     }])
   }
 
-  enterKeyPressed(event: KeyboardEvent, searchType: 'author' | 'book title', observable: Subject<any>): void {
+  enterKeyPressed(event: KeyboardEvent): void {
     if (event.key.toLowerCase() === 'enter') {
-      if (searchType === 'author') {
-        this.bookSearchTerm = undefined;
-        this.doQuery(this.buildSearchByAuthorQuery(), 'books', observable);
-      }
-      else {
-        this.authorSearchTerm = undefined;
-        this.doQuery(this.buildSearchByTitleQuery(), 'books', observable);
-      }
+      this.search();
     }
   }
 
   clearSearch(): void {
-    this.authorSearchTerm = '';
+    this.searchTerm = undefined;
     this.doQuery(this.generateAllQuery(), 'books', this.books$);
   }
 
   buildSearchByAuthorQuery(): GraphQlQuery {
-    if (this.authorSearchTerm)
+    if (this.searchTerm)
       return this.generateAuthorSearchQuery();
 
     return this.generateAllQuery();
   }
 
   buildSearchByTitleQuery(): GraphQlQuery {
-    if (this.bookSearchTerm)
+    if (this.searchTerm)
       return this.generateBookSearchQuery();
 
     return this.generateAllQuery();
@@ -93,57 +94,53 @@ export class BooksComponent extends PageComponent implements OnInit {
       field: 'name',
       subClause: null,
       term: 'term',
-      operator: QueryOperator.contains
+      operator: this.condition
     };
     const where: WhereClause = {
       field: 'author',
       subClause: authorClause,
       operator: QueryOperator.none,
-      term: this.authorSearchTerm as string
+      term: this.searchTerm as string
     };
 
-    const query: IQuery = {
-      ...this.searchQuery,
-      queryName: 'getBooksByAuthor',
-      item: 'books',
-      parameter: {
-        term: 'term',
-        field: 'name',
-        type: 'String!',
-        value: this.authorSearchTerm
-      },
-      returnProperties: '{id,title,author{firstName,lastName}}',
-      whereClause: where,
-      returnValue: 'books'
-    };
-    this._queryBuilder.loadBuilder(query);
-
-    return this._queryBuilder.buildQuery();
+    return this.generateSearchQuery(
+      'getBooksByAuthor',
+      'name',
+      where
+    );
   }
 
   generateBookSearchQuery(): GraphQlQuery {
     const where: WhereClause = {
       field: 'title',
       subClause: null,
-      operator: QueryOperator.contains,
+      operator: this.condition,
       term: 'term' as string
     };
 
+    return this.generateSearchQuery(
+      'getBooksByTitle',
+      'title',
+      where
+    );
+  }
+
+  generateSearchQuery(queryName: string, field: string, where: WhereClause): GraphQlQuery {
     const query: IQuery = {
       ...this.searchQuery,
-      queryName: 'getBooksByTitle',
+      queryName: queryName,
       item: 'books',
       parameter: {
         term: 'term',
-        field: 'title',
+        field: field,
         type: 'String!',
-        value: this.bookSearchTerm
+        value: this.searchTerm
       },
       returnProperties: '{id,title,author{firstName,lastName}}',
       whereClause: where,
       returnValue: 'books'
     };
-    console.log('query', query);
+
     this._queryBuilder.loadBuilder(query);
 
     return this._queryBuilder.buildQuery();
@@ -159,5 +156,36 @@ export class BooksComponent extends PageComponent implements OnInit {
     }
 
     return query.graphQlSearch();
+  }
+
+  changeSearchType(value: 'author' | 'book title'): void {
+    this.searchType = value;
+    if (value === 'author')
+      this.inputPlaceholder = this.authorPlaceholder;
+    else
+      this.inputPlaceholder = this.bookTitlePlaceholder;
+
+    this.search();
+  }
+
+  changeCondition(value: QueryOperator): void {
+    this.condition = value;
+    this.search();
+  }
+
+  search(): void {
+    switch (this.searchType) {
+      case 'author': {
+        this.doQuery(this.buildSearchByAuthorQuery(), 'books', this.books$);
+        break;
+      }
+      case 'book title': {
+        this.doQuery(this.buildSearchByTitleQuery(), 'books', this.books$);
+        break;
+      }
+      default: {
+        throw new Error("Unsupported search type");
+      }
+    }
   }
 }

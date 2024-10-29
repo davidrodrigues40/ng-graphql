@@ -15,8 +15,18 @@ export class WhereClause {
 export enum QueryOperator {
     none = 'none',
     contains = 'contains',
-    equals = 'eq'
+    equals = 'equals'
 }
 
-
-//query getBooksByAuthor($term: String!) { books(where: { author: { name: { contains: $term}}) {id,title,author{firstName,lastName}}}
+export namespace QueryOperator {
+    export function toQueryValue(operator: QueryOperator): string {
+        switch (operator) {
+            case QueryOperator.contains:
+                return 'contains';
+            case QueryOperator.equals:
+                return 'eq';
+            default:
+                return '';
+        }
+    }
+}

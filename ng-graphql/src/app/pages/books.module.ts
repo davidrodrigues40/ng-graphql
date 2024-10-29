@@ -16,6 +16,7 @@ import { AddBookComponent } from './add-book/add-book.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HomeComponent } from './home/home.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { HomeComponent } from './home/home.component';
     RouterLinkActive,
     MatDividerModule,
     MatSelectModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatIconModule
   ],
   providers: [
     Router,
