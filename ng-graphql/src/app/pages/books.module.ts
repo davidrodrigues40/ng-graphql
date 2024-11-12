@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -26,38 +26,35 @@ import { BooksEffects } from '../state/books/books-effects';
 
 
 @NgModule({
-  declarations: [
-    AddBookComponent,
-    BooksComponent
-  ],
-  imports: [
-    EffectsModule.forFeature([BooksEffects]),
-    RouterModule,
-    HttpClientModule,
-    BookViewComponent,
-    MatCardModule,
-    MatFormFieldModule,
-    CommonModule,
-    MatInputModule,
-    MatButtonModule,
-    FormsModule,
-    PageComponent,
-    RouterLink,
-    RouterLinkActive,
-    MatDividerModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatIconModule,
-    BookSearchTypeComponent,
-    OperatorsComponent,
-    BookListComponent,
-    SearchComponent,
-    SearchStatusComponent
-  ],
-  providers: [
-    OperatorsComponent,
-    Router,
-    { provide: GraphQlService, useClass: GraphQlService }
-  ],
+    declarations: [
+        AddBookComponent,
+        BooksComponent
+    ], imports: [
+        EffectsModule.forFeature([BooksEffects]),
+        RouterModule,
+        BookViewComponent,
+        MatCardModule,
+        MatFormFieldModule,
+        CommonModule,
+        MatInputModule,
+        MatButtonModule,
+        FormsModule,
+        PageComponent,
+        RouterLink,
+        RouterLinkActive,
+        MatDividerModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        BookSearchTypeComponent,
+        OperatorsComponent,
+        BookListComponent,
+        SearchComponent,
+        SearchStatusComponent], providers: [
+            OperatorsComponent,
+            Router,
+            { provide: GraphQlService, useClass: GraphQlService },
+            provideHttpClient(withInterceptorsFromDi())
+        ]
 })
 export class BooksModule { }
