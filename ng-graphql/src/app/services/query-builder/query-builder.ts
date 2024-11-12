@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Parameter } from 'src/app/graphQl/abstractions/graph-gl';
-import { GraphQlQuery, QueryOperator, WhereClause } from 'src/app/graphQl/models/graphql-query';
+import { GraphQlQuery, WhereClause } from 'src/app/graphQl/models/graphql-query';
 import { WhereClauseBuilder } from '../where-clause-builder/where-clause-builder';
 import { IQuery } from 'src/app/graphQl/models/query';
+import { QueryStructures } from 'src/app/graphQl/query-structures';
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +11,10 @@ import { IQuery } from 'src/app/graphQl/models/query';
 export class QueryBuilder implements IQuery {
   queryName: string = '';
   item: string = '';
-  parameter: Parameter = {
-    term: '',
-    field: '',
-    type: '',
-    value: ''
-  };
-  searchTerm: string = '';
+  parameter?: Parameter
+  searchTerm?: string
   returnValue: string = '';
-  whereClause: WhereClause = {
-    field: '',
-    subClause: null,
-    term: '',
-    operator: QueryOperator.none
-  };
+  whereClause?: WhereClause;
   returnProperties: string = '';
 
   constructor(private readonly whereClauseBuilder: WhereClauseBuilder) { }
@@ -39,15 +30,34 @@ export class QueryBuilder implements IQuery {
   }
 
   buildQuery(): GraphQlQuery {
+    if (this.parameter)
+      return {
+        query: this.buildSearchQuery(),
+        variables: { [this.parameter.term]: this.parameter.value }
+      }
+
     return {
-      query: this.buildInnerQuery(),
-      variables: { [this.parameter.term]: this.parameter.value }
+      query: this.buildParameterlessQuery()
     }
   }
 
-  private buildInnerQuery(): string {
-    console.log('this', this);
+  private buildParameterlessQuery(): string {
+    return QueryStructures.all
+      .replace(/{{query-name}}/g, this.queryName)
+      .replace(/{{item}}/g, this.item)
+      .replace(/{{return-properties}}/g, this.returnProperties);
+  }
 
-    return `query ${this.queryName}($${this.parameter.term}: ${this.parameter.type}) { ${this.item}(${this.whereClauseBuilder.build(this.whereClause)}) ${this.returnProperties}}`;
+  private buildSearchQuery(): string {
+    if (this.parameter && this.whereClause)
+      return QueryStructures.search
+        .replace(/{{query-name}}/g, this.queryName)
+        .replace(/{{term-name}}/g, this.parameter.term)
+        .replace(/{{term-type}}/g, this.parameter.type)
+        .replace(/{{item}}/g, this.item)
+        .replace(/{{where-clause}}/g, this.whereClauseBuilder.build(this.whereClause))
+        .replace(/{{return-properties}}/g, this.returnProperties);
+
+    throw new Error('Invalid request');
   }
 }

@@ -1,0 +1,22 @@
+<div class="display-flex flex-col-gap--sm align-items--baseline top-row">
+    <mat-form-field>
+        <mat-label>Search {{ searchType | titlecase }}</mat-label>
+        <input id="search-input"
+               matInput
+               [placeholder]="placeHolder"
+               (keyup)="onKeyUp($event)"
+               [(ngModel)]="searchTerm" />
+    </mat-form-field>
+    <button mat-mini-fab
+            type="button"
+            color="primary"
+            (click)="searchClicked.emit(searchTerm)">
+        <mat-icon>search</mat-icon>
+    </button>
+    <button mat-mini-fab
+            type="button"
+            color="secondary"
+            (click)="clearSearch.emit()">
+        <mat-icon>close_small</mat-icon>
+    </button>
+</div>

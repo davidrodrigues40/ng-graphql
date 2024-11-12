@@ -1,7 +1,9 @@
 @import 'src/assets/formatting';
 
-.book {
-    padding-bottom: $gap;
-    padding-left: $gap;
-    padding-right: $gap;
+.books {
+    flex-grow: 1
+}
+
+.top-row {
+    height: 75px;
 }

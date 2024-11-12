@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import { EMPTY, Observable, Subject, map } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { GraphQlQuery } from '../graphQl/models/graphql-query';
 import { BreadCrumbService } from '../services/navigation/bread-crumbs/bread-crumb.service';
-import { BreadCrumb } from '../services/navigation/bread-crumb';
-import { GraphQlService } from '../services/graph-ql/graphql.service';
+import { NavigationItem } from '../services/navigation/navigation-item';
+import { NavigationService } from '../services/navigation/service/navigation.service';
 
 @Component({
   selector: '',
@@ -11,30 +10,16 @@ import { GraphQlService } from '../services/graph-ql/graphql.service';
   standalone: true
 })
 export class PageComponent {
-  searchTerm?: string;
+  searchTerm: string = '';
   query?: GraphQlQuery;
   response?: any;
+  count: number = 0;
 
-  constructor(private readonly _graphQlService: GraphQlService,
-    private readonly _breadcrumbService: BreadCrumbService
+  constructor(
+    private readonly _navigationService: NavigationService
   ) { }
 
-  get doQuery$(): Observable<any> {
-    if (this.query)
-      return this._graphQlService.DoQuery(this.query);
-
-    return EMPTY;
-  }
-
-  doQuery(query: GraphQlQuery, objectName: string, returnObservable: Subject<any>): void {
-    this.query = query;
-    this.doQuery$
-      .pipe(
-        map(response => response[objectName]))
-      .subscribe(response => returnObservable.next(response));
-  }
-
-  setBreadcrumbs(breadcrumbs: BreadCrumb[]): void {
-    this._breadcrumbService.setBreadCrumbs(breadcrumbs);
+  navigateForward(item: NavigationItem): void {
+    this._navigationService.goForward(item);
   }
 }

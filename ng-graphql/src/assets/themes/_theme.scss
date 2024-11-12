@@ -1,5 +1,4 @@
 @use 'node_modules/@angular/material' as mat;
-@include mat.core();
 
 $md-primary: (
     50 : #e8f0f8,
@@ -71,7 +70,7 @@ $md-background: (
     200 : #808080,
     300 : #4d4d4d,
     400 : #262626,
-    500 : #000000,
+    500 : #0f0f11,
     600 : #000000,
     700 : #000000,
     800 : #000000,

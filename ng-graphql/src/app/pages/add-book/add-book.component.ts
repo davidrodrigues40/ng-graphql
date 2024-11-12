@@ -4,10 +4,11 @@ import { EmptyGUID } from 'src/app/graphQl/custom-types/types';
 import { Author } from 'src/app/graphQl/queryTypes/author';
 import { Book } from 'src/app/graphQl/queryTypes/book';
 import { Mutation } from 'src/app/graphQl/models/mutation';
-import { AllQuery } from 'src/app/graphQl/models/query';
+import { IQuery } from 'src/app/graphQl/models/query';
 import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
 import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/bread-crumb.service';
 import { PageComponent } from '../page.component';
+import { NavigationService } from 'src/app/services/navigation/service/navigation.service';
 
 @Component({
   selector: 'app-add-book',
@@ -16,7 +17,6 @@ import { PageComponent } from '../page.component';
   providers: [GraphQlService]
 })
 export class AddBookComponent extends PageComponent implements OnInit {
-  private readonly _authorQuery: AllQuery = new AllQuery();
   private readonly _insertQuery: Mutation = new Mutation();
   insertedBook$: Subject<Book> = new Subject<Book>();
   authors$: Subject<Author[]> = new Subject<Author[]>();
@@ -32,20 +32,18 @@ export class AddBookComponent extends PageComponent implements OnInit {
   }
   private readonly saveResponse$: Subject<Book> = new Subject<Book>();
 
-  constructor(private readonly _g: GraphQlService,
-    private readonly _b: BreadCrumbService
-  ) { super(_g, _b); }
+  constructor(private readonly _breadcrumbService: BreadCrumbService,
+    private readonly _: NavigationService
+  ) { super(_); }
 
   ngOnInit(): void {
     this.getAuthors();
-    this.setBreadcrumbs([{
-      name: 'Books',
-      routerLink: 'books'
-    },
-    {
-      name: 'Add Book',
-      routerLink: 'add-book'
-    }]);
+
+    this._breadcrumbService.getBreadcrumbs()
+      .subscribe(breadcrumbs => {
+        if (breadcrumbs.length == 0)
+          this._breadcrumbService.setBreadcrumbs([{ name: 'Books', url: 'books' }, { name: 'Add Book', url: 'add-book' }]);
+      });
 
     this.saveResponse$
       .subscribe(response => console.log("save", response));
@@ -65,7 +63,7 @@ export class AddBookComponent extends PageComponent implements OnInit {
       graphQlSearch: this._insertQuery.graphQlSearch,
     };
 
-    this.doQuery(mutation.graphQlSearch(), 'book', this.insertedBook$)
+    //this.doQuery(mutation.graphQlSearch(), 'book', this.insertedBook$)
   }
 
   changePageCount(event: Event): void {
@@ -90,13 +88,12 @@ export class AddBookComponent extends PageComponent implements OnInit {
   }
 
   getAuthors(): void {
-    const query: AllQuery = {
-      ...this._authorQuery,
-      objectName: 'authors',
+    const query: IQuery = {
+      ...this.query,
+      item: 'authors',
       returnProperties: '{firstName,lastName, id}',
-      graphQlSearch: this._authorQuery.graphQlSearch
+      queryName: 'GetAuthors',
+      returnValue: 'authors'
     };
-
-    this.doQuery(query.graphQlSearch(), 'authors', this.authors$);
   }
 }

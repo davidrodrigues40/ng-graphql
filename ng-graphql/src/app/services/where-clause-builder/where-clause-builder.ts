@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { QueryOperator, WhereClause } from 'src/app/graphQl/models/graphql-query';
+import { QueryOperator } from 'src/app/enums/query-operator.enum';
+import { WhereClause } from 'src/app/graphQl/models/graphql-query';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,6 @@ export class WhereClauseBuilder {
   build(clause: WhereClause): string {
     if (!clause)
       return '';
-    console.log(typeof clause.subClause);
 
     if (clause.subClause)
       return this.buildComplex(clause);

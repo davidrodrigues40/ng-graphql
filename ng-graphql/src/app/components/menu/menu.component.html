@@ -1,0 +1,8 @@
+<div class="display-flex">
+    <div *ngFor="let item of menuItems">
+        <button mat-button
+                (click)="goto(item)">
+            {{item.name}}
+        </button>
+    </div>
+</div>

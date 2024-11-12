@@ -7,7 +7,7 @@
         </div>
         <ng-template #notlast>
             <div>
-                <a [routerLink]="breadcrumb.routerLink">{{breadcrumb.name}}</a>
+                <a (click)="goto(breadcrumb)">{{breadcrumb.name}}</a>
             </div>
             <span>-</span>
         </ng-template>

@@ -1,0 +1,21 @@
+<div class="display-flex section-column">
+    <div>Operator:</div>
+    <div>
+        <input type="radio"
+               id="operator-contains"
+               name="operator"
+               value="contains"
+               [checked]="operator === initialValue"
+               (change)="operatorChanged.emit(operators.contains)" />
+        <label for="operator-contains">Contains</label>
+    </div>
+    <div>
+        <input type="radio"
+               id="operator-equals"
+               name="operator"
+               value="eq"
+               [checked]="operator === initialValue"
+               (change)="operatorChanged.emit(operators.equals)" />
+        <label for="operator-equals">Equals</label>
+    </div>
+</div>

@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/bread-crumb.service';
-import { BreadCrumbState } from 'src/app/state/breadcrumbs/breadcrumbs-state';
 import { MatIconModule } from '@angular/material/icon';
+import { NavigationItem } from 'src/app/services/navigation/navigation-item';
+import { NavigationService } from 'src/app/services/navigation/service/navigation.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -20,5 +22,13 @@ import { MatIconModule } from '@angular/material/icon';
   ]
 })
 export class BreadCrumbsComponent {
-  breadcrumbs$ = BreadCrumbState.breadcrumbs$;
+  breadcrumbs$: Observable<ReadonlyArray<NavigationItem>> = this._breadcrumbService.getBreadcrumbs();
+
+  constructor(private readonly _navigationService: NavigationService,
+    private readonly _breadcrumbService: BreadCrumbService
+  ) { }
+
+  goto(item: NavigationItem): void {
+    this._navigationService.goBackwards(item);
+  }
 }

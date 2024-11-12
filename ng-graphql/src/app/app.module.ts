@@ -8,11 +8,18 @@ import { ProperCasePipe } from './pipes/proper-case.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule, RouterLink, RouterLinkActive } from '@angular/router';
 import { BreadCrumbsComponent } from './components/bread-crumbs/bread-crumbs.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers } from './state/app.reducers';
+import { HomeComponent } from './pages/home/home.component';
+import { MenuComponent } from "./components/menu/menu.component";
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProperCasePipe,
+    HomeComponent
   ],
   imports: [
     BreadCrumbsComponent,
@@ -21,9 +28,13 @@ import { BreadCrumbsComponent } from './components/bread-crumbs/bread-crumbs.com
     HttpClientModule,
     BrowserAnimationsModule,
     MatSelectModule,
+    MatButtonModule,
     RouterLink,
     RouterLinkActive,
-    RouterModule
+    RouterModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(),
+    MenuComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

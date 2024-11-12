@@ -15,17 +15,23 @@ import { MatDividerModule } from '@angular/material/divider';
 import { AddBookComponent } from './add-book/add-book.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { HomeComponent } from './home/home.component';
 import { MatIconModule } from '@angular/material/icon';
+import { BookSearchTypeComponent } from "./books/components/book-search-type/book-search-type.component";
+import { OperatorsComponent } from "../components/operators/operators.component";
+import { BookListComponent } from "./books/components/book-list/book-list.component";
+import { SearchComponent } from "../components/search/search.component";
+import { SearchStatusComponent } from '../components/search-status/search-status.component';
+import { EffectsModule } from '@ngrx/effects';
+import { BooksEffects } from '../state/books/books-effects';
 
 
 @NgModule({
   declarations: [
-    BooksComponent,
     AddBookComponent,
-    HomeComponent
+    BooksComponent
   ],
   imports: [
+    EffectsModule.forFeature([BooksEffects]),
     RouterModule,
     HttpClientModule,
     BookViewComponent,
@@ -41,9 +47,15 @@ import { MatIconModule } from '@angular/material/icon';
     MatDividerModule,
     MatSelectModule,
     MatAutocompleteModule,
-    MatIconModule
+    MatIconModule,
+    BookSearchTypeComponent,
+    OperatorsComponent,
+    BookListComponent,
+    SearchComponent,
+    SearchStatusComponent
   ],
   providers: [
+    OperatorsComponent,
     Router,
     { provide: GraphQlService, useClass: GraphQlService }
   ],

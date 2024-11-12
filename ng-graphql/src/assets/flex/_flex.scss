@@ -61,6 +61,10 @@
         &--space-between {
             justify-content: space-between;
         }
+
+        &--flex-end {
+            justify-content: flex-end;
+        }
     }
 }
 
@@ -71,5 +75,9 @@
 
     &--baseline {
         align-items: baseline;
+    }
+
+    &--flex-end {
+        align-items: flex-end;
     }
 }

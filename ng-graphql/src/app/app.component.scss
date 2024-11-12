@@ -1,6 +1,28 @@
+@use "sass:map";
+@import 'src/assets/themes/theme';
 @import 'src/assets/variables';
+@import 'src/assets/formatting';
 
 .bread-crumbs {
     height: 24px;
-    margin-bottom: $gap;
+    padding: $gap;
+}
+
+.banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $gap/2;
+    border-bottom: 1px solid map.get($md-secondary, 200);
+
+    & a {
+        text-decoration: none;
+        color: inherit;
+    }
+}
+
+.page-content {
+    padding: $gap;
+    border-top: 1px solid map-get($map: $md-primary, $key: 400);
+    align-items: flex-start;
 }

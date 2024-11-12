@@ -1,3 +1,4 @@
+import { QueryOperator } from "src/app/enums/query-operator.enum";
 import { Variables } from "../abstractions/graph-gl";
 
 export class GraphQlQuery {
@@ -10,23 +11,4 @@ export class WhereClause {
     subClause: WhereClause | null = null;
     term: string = '';
     operator: QueryOperator = QueryOperator.none;
-}
-
-export enum QueryOperator {
-    none = 'none',
-    contains = 'contains',
-    equals = 'equals'
-}
-
-export namespace QueryOperator {
-    export function toQueryValue(operator: QueryOperator): string {
-        switch (operator) {
-            case QueryOperator.contains:
-                return 'contains';
-            case QueryOperator.equals:
-                return 'eq';
-            default:
-                return '';
-        }
-    }
 }

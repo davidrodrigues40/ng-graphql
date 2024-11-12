@@ -1,6 +1,5 @@
-import { BehaviorSubject } from "rxjs";
-import { BreadCrumb } from "src/app/services/navigation/bread-crumb";
+import { NavigationItem } from "src/app/services/navigation/navigation-item";
 
-export class BreadCrumbState {
-    static readonly breadcrumbs$: BehaviorSubject<BreadCrumb[]> = new BehaviorSubject<BreadCrumb[]>([]);
+export interface BreadcrumbState {
+    breadcrumbs: NavigationItem[];
 }
