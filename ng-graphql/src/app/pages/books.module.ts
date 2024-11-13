@@ -29,7 +29,8 @@ import { BooksEffects } from '../state/books/books-effects';
     declarations: [
         AddBookComponent,
         BooksComponent
-    ], imports: [
+    ],
+    imports: [
         EffectsModule.forFeature([BooksEffects]),
         RouterModule,
         BookViewComponent,
@@ -50,11 +51,12 @@ import { BooksEffects } from '../state/books/books-effects';
         OperatorsComponent,
         BookListComponent,
         SearchComponent,
-        SearchStatusComponent], providers: [
-            OperatorsComponent,
-            Router,
-            { provide: GraphQlService, useClass: GraphQlService },
-            provideHttpClient(withInterceptorsFromDi())
-        ]
+        SearchStatusComponent],
+    providers: [
+        OperatorsComponent,
+        Router,
+        { provide: GraphQlService, useClass: GraphQlService },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
 })
 export class BooksModule { }

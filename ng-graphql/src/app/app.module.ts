@@ -1,29 +1,31 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ProperCasePipe } from './pipes/proper-case.pipe';
-import { MatSelectModule } from '@angular/material/select';
-import { RouterModule, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { HomeComponent } from './pages/home/home.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { BreadCrumbsComponent } from './components/bread-crumbs/bread-crumbs.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './state/app.reducers';
-import { HomeComponent } from './pages/home/home.component';
-import { MenuComponent } from "./components/menu/menu.component";
+import { AppRoutingModule } from './app-routing.module';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         AppComponent,
         ProperCasePipe,
         HomeComponent
     ],
-    bootstrap: [AppComponent], imports: [BreadCrumbsComponent,
+    imports: [
+        BreadCrumbsComponent,
+        BrowserAnimationsModule,
         BrowserModule,
         AppRoutingModule,
-        BrowserAnimationsModule,
         MatSelectModule,
         MatButtonModule,
         RouterLink,
@@ -31,5 +33,9 @@ import { MatButtonModule } from '@angular/material/button';
         RouterModule,
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot(),
-        MenuComponent], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        MenuComponent
+    ],
+    bootstrap: [AppComponent],
+    providers: [provideHttpClient(withInterceptorsFromDi())]
+})
 export class AppModule { }

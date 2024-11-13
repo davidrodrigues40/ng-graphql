@@ -2,6 +2,7 @@
 @import 'src/assets/themes/theme';
 @import 'src/assets/variables';
 @import 'src/assets/formatting';
+@import 'src/styles';
 
 .bread-crumbs {
     height: 24px;
@@ -13,7 +14,7 @@
     align-items: center;
     justify-content: space-between;
     padding: $gap/2;
-    border-bottom: 1px solid map.get($md-secondary, 200);
+    border-bottom: 1px solid map.get($theme, secondary, 200);
 
     & a {
         text-decoration: none;
@@ -23,6 +24,6 @@
 
 .page-content {
     padding: $gap;
-    border-top: 1px solid map-get($map: $md-primary, $key: 400);
+    border-top: 1px solid map-get($theme, primary, 40);
     align-items: flex-start;
 }

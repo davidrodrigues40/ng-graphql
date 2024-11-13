@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/bread-crumb.service';
 import { MatIconModule } from '@angular/material/icon';
 import { NavigationItem } from 'src/app/services/navigation/navigation-item';
@@ -14,11 +13,11 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     MatIconModule
   ],
   providers: [
-    BreadCrumbService
+    BreadCrumbService,
+    NavigationService
   ]
 })
 export class BreadCrumbsComponent {
