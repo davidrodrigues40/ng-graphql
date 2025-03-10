@@ -18,11 +18,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { BookSearchTypeComponent } from "./books/components/book-search-type/book-search-type.component";
 import { OperatorsComponent } from "../components/operators/operators.component";
-import { BookListComponent } from "./books/components/book-list/book-list.component";
 import { SearchComponent } from "../components/search/search.component";
 import { SearchStatusComponent } from '../components/search-status/search-status.component';
-import { EffectsModule } from '@ngrx/effects';
-import { BooksEffects } from '../state/books/books-effects';
 
 
 @NgModule({
@@ -31,7 +28,6 @@ import { BooksEffects } from '../state/books/books-effects';
         BooksComponent
     ],
     imports: [
-        EffectsModule.forFeature([BooksEffects]),
         RouterModule,
         BookViewComponent,
         MatCardModule,
@@ -49,7 +45,6 @@ import { BooksEffects } from '../state/books/books-effects';
         MatIconModule,
         BookSearchTypeComponent,
         OperatorsComponent,
-        BookListComponent,
         SearchComponent,
         SearchStatusComponent],
     providers: [

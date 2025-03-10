@@ -1,9 +1,9 @@
 import { ActionReducerMap } from "@ngrx/store";
 import { AppState } from "./app.state";
-import * as bookReducers from './books/books-reducer';
 import * as breadcrumbReducers from './breadcrumbs/breadcrumbs-reducer';
+import * as pdfReducers from './pdf/pdf-reducer';
 
 export const reducers: ActionReducerMap<AppState> = {
-    booksState: bookReducers.booksReducer,
-    breadcrumbState: breadcrumbReducers.breadcrumbReducer
+    breadcrumbState: breadcrumbReducers.breadcrumbReducer,
+    pdfState: pdfReducers.pdfReducer
 }

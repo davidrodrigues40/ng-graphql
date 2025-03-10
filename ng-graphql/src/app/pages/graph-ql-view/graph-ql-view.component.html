@@ -1,0 +1,20 @@
+<section class="page section section-row">
+    <h1>GraphQL SDK</h1>
+    <button mat-flat-button
+            color="primary"
+            type="button"
+            (click)="getQuery()">Get Query</button>
+    <h2>Query</h2>
+    <section class="code">
+        <textarea rows="20"
+                  style="width: 100%">{{query}}</textarea>
+    </section>
+    <h2>Request</h2>
+    <section class="code code-scrollable">
+        <div [innerHTML]="request | pretty"></div>
+    </section>
+    <h2>Response</h2>
+    <section class="code code-scrollable">
+        <div [innerHTML]="response$ | async | pretty"></div>
+    </section>
+</section>

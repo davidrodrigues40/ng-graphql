@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { GraphQlQuery } from '../graphQl/models/graphql-query';
-import { BreadCrumbService } from '../services/navigation/bread-crumbs/bread-crumb.service';
+import { Component } from '@angular/core';
 import { NavigationItem } from '../services/navigation/navigation-item';
 import { NavigationService } from '../services/navigation/service/navigation.service';
 
@@ -11,7 +9,7 @@ import { NavigationService } from '../services/navigation/service/navigation.ser
 })
 export class PageComponent {
   searchTerm: string = '';
-  query?: GraphQlQuery;
+  query?: any;
   response?: any;
   count: number = 0;
 

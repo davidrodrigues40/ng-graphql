@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xml:lang="en">
+
+<head>
+    <title>Pdf Frame</title>
+    <style>
+        :root {
+            --gap: 16px;
+            --half-gap: calc(var(--gap) * 0.5);
+            --row-height: 32px;
+            --background-color: rgb(255, 255, 255);
+            --header-background-color: rgb(180, 180, 180);
+            --header-color: black;
+            --width: 800px;
+            --75: calc(var(--width) * 0.75);
+            --50: calc(var(--width) * 0.5);
+            --25: calc(var(--width) * 0.25);
+        }
+
+        .section {
+            display: flex;
+        }
+
+        .column-100 {
+            flex-basis: var(--width);
+        }
+
+        .column-75 {
+            flex-grow: 3;
+            flex-basis: calc(var(--75) - var(--half-gap));
+        }
+
+        .column-50 {
+            flex-grow: 2;
+            flex-basis: calc(var(--50) - var(--half-gap));
+        }
+
+        .column-25 {
+            flex-basis: calc(var(--25) - var(--half-gap));
+        }
+
+        body {
+            background-color: white;
+            color: black;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-spacing: 0;
+        }
+
+        .page {
+            width: 100vw;
+            display: flex;
+            column-gap: var(--gap);
+            row-gap: var(--gap);
+            flex-wrap: wrap;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            /* Prevent breaking rows within row */
+            border-collapse: collapse;
+            border-width: 0;
+            height: var(--row-height);
+            overflow: hidden;
+        }
+
+        td {
+            color: var(--header-color);
+            padding: calc(var(--gap) * .5);
+        }
+
+        td.heading {
+            background-color: var(--header-background-color);
+            color: var(--header-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="pdf-page"
+         class="page"></div>
+</body>
+<script>
+    let _page;
+
+    function createRow(parent, text, classList) {
+        const tr = document.createElement('tr');
+        parent.append(tr);
+
+        const td = document.createElement('td');
+        td.innerText = text;
+        if (classList)
+            td.classList = classList;
+
+        tr.append(td);
+    }
+
+    function createTable(title, rows) {
+        const table = document.createElement('table');
+
+        const thead = document.createElement('thead');
+        table.append(thead);
+
+        createRow(thead, title, 'heading');
+
+        const tbody = document.createElement('tbody');
+        table.append(tbody);
+
+        for (let x = 0; x < rows; x++) {
+            createRow(tbody, 'This is row ' + x.toString());
+        }
+
+        return table;
+    }
+
+    function createSection(title, rows, className) {
+        const section = document.createElement('div');
+        section.classList = 'section column ' + className;
+
+        section.append(createTable(title, rows));
+        _page.append(section);
+    }
+
+    function createDocument() {
+        _page = document.getElementById("pdf-page");
+        createSection('Seventy Five Percent', 4, 'column-75');
+        createSection('Languages', 3, 'column-25');
+        createSection('First Fifty', 5, 'column-50');
+        createSection('Second Fifty', 5, 'column-50');
+        createSection('Large Page Breaking', 100, 'column-100');
+    }
+
+    createDocument();
+</script>
+
+</html>

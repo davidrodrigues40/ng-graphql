@@ -1,0 +1,11 @@
+@import 'src/assets/variables.scss';
+
+.code {
+    background-color: $gray;
+    padding: $gap;
+
+    &-scrollable {
+        overflow: auto;
+        min-height: 300px;
+    }
+}

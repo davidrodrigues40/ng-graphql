@@ -1,32 +1,18 @@
 <section class="page section section-row">
    <!-- Left Column-->
-   <div class="display-flex section-column flex-col-gap--base align-items--baseline">
-      <app-search [searchType]="searchType"
-                  [placeHolder]="inputPlaceholder"
-                  [(searchTerm)]="searchTerm"
-                  (keyUp)="enterKeyPressed($event)"
-                  (clearSearch)="clearSearch()"
-                  (searchClicked)="search()"></app-search>
-      <app-book-search-type class="filter"
-                            (searchTypeChanged)="changeSearchType($event)"></app-book-search-type>
-      <app-operators class="filter"
-                     [initialValue]="operators.equals"
-                     (operatorChanged)="changeOperator($event)"></app-operators>
-      <app-search-status [count]="count"
-                         [operator]="operator"
-                         [searchTerm]="searchTerm"
-                         [searchType]="searchType"></app-search-status>
-   </div>
-   <!-- Main Column-->
-   <div class="section section-column books">
-      <div class="section align-items--center justify-content--flex-end top-row">
-         <button mat-flat-button
-                 color="primary"
-                 type="button"
-                 (click)="addBookClicked()">Add Book</button>
-      </div>
-      <div>
-         <app-book-list [books]="books$ | async"></app-book-list>
-      </div>
+   <div class="section">
+      <mat-card>
+         <mat-card-header>
+            <mat-card-title>
+               <h2>New Book</h2>
+            </mat-card-title>
+         </mat-card-header>
+
+         <mat-card-content>
+            <div class="display-flex flex-direction--column flex-row-gap--base">
+               <h3>This functionality no longer exists.</h3>
+            </div>
+         </mat-card-content>
+      </mat-card>
    </div>
 </section>

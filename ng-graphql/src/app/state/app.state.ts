@@ -1,7 +1,7 @@
-import { BooksState } from "./books/books.state";
 import { BreadcrumbState } from "./breadcrumbs/breadcrumbs-state";
+import { PdfState } from "./pdf/pdf-state";
 
 export interface AppState {
-    booksState: BooksState;
-    breadcrumbState: BreadcrumbState
+    breadcrumbState: BreadcrumbState;
+    pdfState: PdfState
 }

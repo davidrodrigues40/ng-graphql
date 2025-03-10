@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api-service';
 import { HttpClient } from '@angular/common/http';
-import { GraphQlQuery } from 'src/app/graphQl/models/graphql-query';
 import { Observable } from 'rxjs';
+import { QueryPayload } from 'src/app/graphQl/models/query-payload';
 
 @Injectable()
 export class GraphQlService extends ApiService {
-  url: string = 'http://localhost:5000/graphQl';
+  constructor(private readonly _: HttpClient) { super(_); }
 
-  constructor(private _: HttpClient) { super(_); }
-
-  DoQuery(query: GraphQlQuery): Observable<any> {
-    return this.callApi(query);
+  DoQuery(query: QueryPayload, url: string): Observable<any> {
+    return this.callApi(query, url);
   }
 }
