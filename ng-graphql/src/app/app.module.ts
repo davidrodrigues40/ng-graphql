@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ProperCasePipe } from './pipes/proper-case.pipe';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PdfEffects } from './state/pdf/pdf-effects';
+import { AuthInterceptor } from './interceptors/auth-interceptor';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,9 @@ import { PdfEffects } from './state/pdf/pdf-effects';
         MenuComponent
     ],
     bootstrap: [AppComponent],
-    providers: [provideHttpClient(withInterceptorsFromDi())]
+    providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    ]
 })
 export class AppModule { }

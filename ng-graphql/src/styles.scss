@@ -38,8 +38,3 @@ h4 {
 :root {
   @include mat.all-component-themes($theme);
 }
-
-button:not(:disabled) {
-  background-color: mat.get-theme-color($theme, primary, 100) !important;
-  color: mat.get-theme-color($theme, neutral, 100) !important;
-}

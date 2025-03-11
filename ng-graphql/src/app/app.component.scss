@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: $gap/2;
+    padding: calc($gap/2);
     border-bottom: 1px solid map.get($theme, secondary, 200);
 
     & a {

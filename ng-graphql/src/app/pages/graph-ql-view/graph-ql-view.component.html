@@ -1,20 +1,76 @@
-<section class="page section section-row">
+<section class="page section section-column">
     <h1>GraphQL SDK</h1>
-    <button mat-flat-button
-            color="primary"
-            type="button"
-            (click)="getQuery()">Get Query</button>
+    <section class="section section-row">
+        <section class="section section-column">
+            <div>
+                <mat-form-field>
+                    <mat-label>Search Term</mat-label>
+                    <input matInput
+                           type="string"
+                           [(ngModel)]="searchTerm"
+                           placeholder="Search Term">
+                </mat-form-field>
+            </div>
+            <mat-form-field>
+                <mat-label>Take</mat-label>
+                <input matInput
+                       type="number"
+                       [(ngModel)]="take"
+                       placeholder="take">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Skip</mat-label>
+                <input matInput
+                       type="number"
+                       [(ngModel)]="skip"
+                       placeholder="skip">
+            </mat-form-field>
+        </section>
+        <div>
+            <mat-form-field>
+                <mat-label>Add Field</mat-label>
+                <input matInput
+                       type="string"
+                       [(ngModel)]="fieldName"
+                       placeholder="field to return">
+            </mat-form-field>
+            <button mat-stroked-button
+                    type="button"
+                    (click)="addField()">Add Field</button>
+            <section>
+                <h3>Request Fields:</h3>
+                <mat-chip-set aria-label="Fish selection">
+                    @for(field of fieldNames; track field) {
+                    <mat-chip>{{field}}</mat-chip>
+                    }
+                </mat-chip-set>
+            </section>
+        </div>
+    </section>
+
+    <section class="section section-row">
+        <button mat-stroked-button
+                type="button"
+                (click)="clear()">Clear</button>
+        <button mat-flat-button
+                type="button"
+                (click)="getQuery()">Get Query</button>
+    </section>
     <h2>Query</h2>
     <section class="code">
-        <textarea rows="20"
-                  style="width: 100%">{{query}}</textarea>
+        <div class="code-container code-container-no-padding">
+            <textarea rows="20"
+                      disabled>{{query}}</textarea>
+        </div>
     </section>
-    <h2>Request</h2>
-    <section class="code code-scrollable">
-        <div [innerHTML]="request | pretty"></div>
+    <h2>Variables</h2>
+    <section class="code">
+        <div class="code-container code-scrollable"
+             [innerHTML]="request?.variables| pretty"></div>
     </section>
     <h2>Response</h2>
-    <section class="code code-scrollable">
-        <div [innerHTML]="response$ | async | pretty"></div>
+    <section class="code">
+        <div class="code-container code-scrollable"
+             [innerHTML]="response$ | async | pretty"></div>
     </section>
 </section>

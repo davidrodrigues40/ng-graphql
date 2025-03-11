@@ -1,11 +1,30 @@
 @import 'src/assets/variables.scss';
+@import 'src/assets/formatting';
 
 .code {
-    background-color: $gray;
-    padding: $gap;
+    color: #f5d795;
+    width: 100%;
+
+    &-container {
+        padding: $gap;
+        background-color: $gray;
+        min-height: 200px;
+        min-width: 95%;
+
+        &-no-padding {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        &>textarea {
+            color: inherit;
+            width: 99.5%;
+            padding: $gap;
+            border: 0;
+        }
+    }
 
     &-scrollable {
         overflow: auto;
-        min-height: 300px;
     }
 }

@@ -3,9 +3,9 @@ import { IBuilderValidationMessage } from "src/app/graphQl/models/builder-valida
 import { QueryBuilderException } from "src/app/graphQl/models/query-builder-exception";
 import { QueryPayload } from "src/app/graphQl/models/query-payload";
 import { QueryBuilderBase } from "../query-builder-base";
-import { IQueryBuilder } from "../IQueryBuilder";
+import { ISearchQueryBuilder } from "../IQueryBuilder";
 
-export class SearchQueryBuilder extends QueryBuilderBase implements IQueryBuilder {
+export class SearchQueryBuilder extends QueryBuilderBase implements ISearchQueryBuilder {
   private readonly _tab: string = '  ';
   private _whereString: string = '';
   private _take: number = 0;
@@ -53,20 +53,19 @@ export class SearchQueryBuilder extends QueryBuilderBase implements IQueryBuilde
   }
 
   private addVariables(): void {
-    this._queryPayload.variables = [];
-
     this._variables.forEach(variable => {
-      this._queryPayload.variables.push({ [variable.name]: variable.value });
+      this._queryPayload.variables[variable.name] = variable.value;
     });
   }
 
   private appendInputVariables(): string {
-    let variables: string = '';
+    let variableArray: string[] = [];
+
     this._variables.forEach(variable => {
-      variables += `$${variable.name}:${variable.type.name}!`;
+      variableArray.push(`$${variable.name}:${variable.type.name}!`);
     });
 
-    return variables;
+    return variableArray.join(',');
   }
 
   private validateQuery(): IBuilderValidationMessage {
@@ -112,40 +111,40 @@ export class SearchQueryBuilder extends QueryBuilderBase implements IQueryBuilde
   }
 
   private appendWhereClause(): string {
-    this._whereString = `${this.appendTabs(2)} where: {
-    \n`;
+    this._whereString = `${this.appendTabs(1)}where: {\n`;
     if (this._where.and.length > 0)
       this.appendAndWhereClause();
 
     if (this._where.or.length > 0)
       this.appendOrWhereClause();
 
-    this._whereString += `${this.appendTabs(3)}
-    } `;
+    this._whereString += `${this.appendTabs(1)}}`;
 
     return this._whereString;
   }
 
   private appendAndWhereClause(): void {
-    this._whereString += `${this.appendTabs(4)} `;
+    const tabCount: number = 3;
+    this._whereString += `${this.appendTabs(tabCount)}`;
     this._whereString += 'and: [ \n';
     this._where.and.forEach(clause => {
-      this._whereString += `${this.appendTabs(5)} `;
+      this._whereString += `${this.appendTabs(tabCount + 1)} `;
       this._whereString += `{${clause.field.name}: {${clause.operator}: ${this.getVariableValueString(clause.value)} } } `;
       this._whereString += '\n';
     });
-    this._whereString += `${this.appendTabs(4)}] \n`;
+    this._whereString += `${this.appendTabs(tabCount)}] \n`;
   }
 
   private appendOrWhereClause(): void {
-    this._whereString += `${this.appendTabs(4)} `;
+    const tabCount: number = 3;
+    this._whereString += `${this.appendTabs(tabCount)}`;
     this._whereString += 'or: [ \n';
     this._where.or.forEach(clause => {
-      this._whereString += `${this.appendTabs(5)} `;
+      this._whereString += `${this.appendTabs(tabCount + 1)} `;
       this._whereString += `{${clause.field.name}: {${clause.operator}: ${this.getVariableValueString(clause.value)} } } `;
       this._whereString += `\n`;
     });
-    this._whereString += `${this.appendTabs(4)}] \n`;
+    this._whereString += `${this.appendTabs(tabCount)}] \n`;
   }
 
   private getVariableValueString(value: any): string {
@@ -153,12 +152,6 @@ export class SearchQueryBuilder extends QueryBuilderBase implements IQueryBuilde
       return `"${value}"`;
     }
     return value;
-  }
-
-  private appendFieldDelimiter(field: IField, fields: IField[], offset: number = 0): string {
-    let separator: string = fields.indexOf(field) < fields.length - 1 ? ',' : '';
-
-    return this.appendTabs(offset) + separator;
   }
 
   private appendTabs(level: number): string {
