@@ -28,3 +28,12 @@
         overflow: auto;
     }
 }
+
+.api-section {
+    height: 76px;
+    align-items: center;
+
+    &--input {
+        flex-grow: 2;
+    }
+}

@@ -14,7 +14,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PdfEffects } from './state/pdf/pdf-effects';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 
 @NgModule({
@@ -35,7 +34,6 @@ import { AuthInterceptor } from './interceptors/auth-interceptor';
         RouterModule,
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot(),
-        EffectsModule.forFeature([PdfEffects]),
         MenuComponent
     ],
     bootstrap: [AppComponent],

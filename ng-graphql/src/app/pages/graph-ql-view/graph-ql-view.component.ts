@@ -1,12 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Operator } from 'src/app/graphQl/enums/operators';
-import { Field } from 'src/app/graphQl/models/field';
-import { Variable } from 'src/app/graphQl/models/variable';
-import { QueryPayload } from 'src/app/graphQl/models/query-payload';
 import { PrettyPipe } from 'src/app/pipes/pretty/pretty.pipe';
 import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
-import { SearchQueryBuilder } from 'src/app/graphQl/builder/search/search-query-builder';
 import { BehaviorSubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { Field, Operator, QueryPayload, SearchQueryBuilder, Variable } from 'query-builder';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-graph-ql-view',
@@ -26,7 +24,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     FormsModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule,
+    MatSlideToggleModule
   ],
   providers: [GraphQlService],
   templateUrl: './graph-ql-view.component.html',
@@ -42,12 +42,16 @@ export class GraphQlViewComponent {
   request: QueryPayload | undefined = undefined;
   builder: SearchQueryBuilder = new SearchQueryBuilder('persons');
   response$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  openedPanel$: WritableSignal<number> = signal(0);
+  enableApi: boolean = false;
+  apiUrl: string = 'https://localhost/PersonApi/graphql';
 
   constructor(private readonly _service: GraphQlService) { }
 
   getQuery(): void {
     try {
-      console.log('searchTerm', this.searchTerm);
+      this.builder = new SearchQueryBuilder('persons');
+
       this.builder
         .take(this.take)
         .skip(this.skip)
@@ -57,30 +61,48 @@ export class GraphQlViewComponent {
         .addOrCondition(new Field('activeDodId'), Operator.CONTAINS, '$searchTerm')
         .addAndCondition(new Field('activeCoreType'), Operator.EQ, '$coreType');
 
+      this.fieldNames.forEach(fieldName => {
+        this.builder.return(fieldName);
+      });
+
       let request: QueryPayload = this.builder.build();
 
       this.query = request.query;
       this.request = request;
 
-      this._service.Query(request, 'https://localhost/PersonApi/graphql')
-        .subscribe((data: any) => {
-          this.response$.next(data);
-        });
+      if (this.enableApi)
+        this._service.Query(request, 'https://localhost/PersonApi/graphql')
+          .subscribe((response: any) => {
+            if (response.error)
+              this.response$.next({ error: response.error.errors[0].message });
+            else
+              this.response$.next(response.data);
 
+            this.openedPanel$.set(3);
+          });
+      else
+        this.openedPanel$.set(1);
     } catch (e: any) {
       this.query = e.message;
     }
+  }
 
-    this.builder = new SearchQueryBuilder('persons');
-    this.fieldNames.forEach(element => {
-      this.builder.return(element);
-    });
+  fieldKeyPressed(event: KeyboardEvent): void {
+    if (event.key === 'Enter')
+      this.addField();
   }
 
   addField(): void {
-    this.builder.return(this.fieldName)
     this.fieldNames.push(this.fieldName);
     this.fieldName = '';
+  }
+
+  removeField(fieldName: string): void {
+    this.fieldNames = this.fieldNames.filter(x => x !== fieldName);
+  }
+
+  setOpenedPanel(index: number): void {
+    this.openedPanel$.set(index);
   }
 
   clear(): void {
@@ -92,5 +114,6 @@ export class GraphQlViewComponent {
     this.take = 10;
     this.skip = 0;
     this.builder = new SearchQueryBuilder('persons');
+    this.openedPanel$.set(0);
   }
 }

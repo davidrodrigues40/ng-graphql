@@ -23,14 +23,6 @@ export class MenuComponent {
       url: 'home'
     },
     {
-      name: 'Books',
-      url: 'books'
-    },
-    {
-      name: 'PDF Viewer',
-      url: 'pdf'
-    },
-    {
       name: 'GraphQL Builder',
       url: 'graphql'
     }
