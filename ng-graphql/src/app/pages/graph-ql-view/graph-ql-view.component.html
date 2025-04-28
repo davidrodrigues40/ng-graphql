@@ -1,28 +1,59 @@
 <section class="page section section-column">
-    <h1>GraphQL SDK</h1>
-    <section class="section section-row api-section">
-        <mat-slide-toggle [(ngModel)]="enableApi">Enable API Call</mat-slide-toggle>
-        @if (enableApi) {
-        <mat-form-field class="api-section--input">
-            <mat-label>API URL</mat-label>
-            <input matInput
-                   type="string"
-                   [(ngModel)]="apiUrl"
-                   placeholder="API URL">
-        </mat-form-field>
-        }
+    <h1>GraphQL SDK, Hello Jordyn</h1>
+    <section>
+        <div class="section section-row">
+            <mat-slide-toggle [(ngModel)]="enableApi">Enable API Call</mat-slide-toggle>
+            <mat-form-field class="api-section--input">
+                <mat-label>API URL</mat-label>
+                <input matInput
+                       type="string"
+                       [(ngModel)]="apiUrl"
+                       placeholder="API URL">
+            </mat-form-field>
+        </div>
     </section>
-    <section class="section section-row">
-        <section class="section section-column">
-            <div>
-                <mat-form-field>
-                    <mat-label>Search Term</mat-label>
-                    <input matInput
-                           type="string"
-                           [(ngModel)]="searchTerm"
-                           placeholder="Search Term">
-                </mat-form-field>
-            </div>
+    <section>
+        <div class="section section-row">
+            <mat-form-field>
+                <mat-label>Term</mat-label>
+                <input matInput
+                       type="string"
+                       [(ngModel)]="searchTerm"
+                       placeholder="Search Term">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Search Type</mat-label>
+                <mat-select [(ngModel)]="searchTermType">
+                    <mat-option *ngFor="let type of searchTermTypes"
+                                [value]="type">{{type.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Search Field</mat-label>
+                <input matInput
+                       type="string"
+                       [(ngModel)]="searchField"
+                       placeholder="Search Field">
+            </mat-form-field>
+        </div>
+    </section>
+    <section>
+        <div class="section section-row">
+            <mat-form-field>
+                <mat-label>Return Field</mat-label>
+                <input matInput
+                       (keypress)="fieldKeyPressed($event)"
+                       type="string"
+                       [(ngModel)]="fieldName"
+                       placeholder="field to return">
+            </mat-form-field>
+            <button mat-stroked-button
+                    type="button"
+                    (click)="addField()">Add Field</button>
+        </div>
+    </section>
+    <section>
+        <div class="section section-row">
             <mat-form-field>
                 <mat-label>Take</mat-label>
                 <input matInput
@@ -37,35 +68,37 @@
                        [(ngModel)]="skip"
                        placeholder="skip">
             </mat-form-field>
-        </section>
-        <div>
-            <mat-form-field>
-                <mat-label>Add Field</mat-label>
-                <input matInput
-                       (keypress)="fieldKeyPressed($event)"
-                       type="string"
-                       [(ngModel)]="fieldName"
-                       placeholder="field to return">
-            </mat-form-field>
-            <button mat-stroked-button
-                    type="button"
-                    (click)="addField()">Add Field</button>
-            <section>
-                <h3>Request Fields:</h3>
-                <mat-chip-set aria-label="Fish selection">
-                    @for(field of fieldNames; track field) {
-                    <mat-chip>
-                        {{field}}
-                        <button matChipRemove
-                                (click)="removeField(field)"><mat-icon>cancel</mat-icon></button>
-                    </mat-chip>
-                    }
-                </mat-chip-set>
-            </section>
         </div>
     </section>
 
-    <section class="section section-row">
+    <section>
+        <div>
+            <h3>Search Terms:</h3>
+            <mat-chip-set aria-label="Fish selection">
+                @for(term of searchVariables; track term) {
+                <mat-chip>
+                    {{term.name}}: {{term.value}} {{term.type.name}}
+                    <button matChipRemove
+                            (click)="removeSearchTerm(term)"><mat-icon>cancel</mat-icon></button>
+                </mat-chip>
+                }
+            </mat-chip-set>
+        </div>
+        <div>
+            <h3>Request Fields:</h3>
+            <mat-chip-set aria-label="Fish selection">
+                @for(field of fieldNames; track field) {
+                <mat-chip>
+                    {{field}}
+                    <button matChipRemove
+                            (click)="removeField(field)"><mat-icon>cancel</mat-icon></button>
+                </mat-chip>
+                }
+            </mat-chip-set>
+        </div>
+    </section>
+
+    <section>
         <button mat-stroked-button
                 type="button"
                 (click)="clear()">Clear</button>
@@ -73,43 +106,88 @@
                 type="button"
                 (click)="getQuery()">Get Query</button>
     </section>
-    <mat-accordion>
-        <mat-expansion-panel [expanded]="openedPanel$() === 1"
-                             (opened)="setOpenedPanel(1)">
-            <mat-expansion-panel-header>
-                <mat-panel-title>Query</mat-panel-title>
-                <mat-panel-description> The query that is being performed. </mat-panel-description>
-            </mat-expansion-panel-header>
-            <section class="code">
-                <div class="code-container code-container-no-padding">
-                    <textarea rows="20"
-                              disabled>{{query}}</textarea>
-                </div>
-            </section>
-        </mat-expansion-panel>
+    <section>
+        <div class="section-title">
+            <h2>Query</h2>
+            <button mat-icon-button
+                    type="button"
+                    (click)="copyToClipboard(query)"
+                    matTooltip="Copy Query"
+                    matTooltipPosition="above">
+                <mat-icon>content_copy</mat-icon>
+            </button>
+        </div>
+        <div class="code">
+            <div class="code-container code-container-no-padding">
+                <textarea [rows]="rows"
+                          disabled>{{query}}</textarea>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="section-title">
+            <h2>Variables</h2>
+            <button mat-icon-button
+                    type="button"
+                    (click)="copyVariableToClipboard(request?.variables)"
+                    matTooltip="Copy Query"
+                    matTooltipPosition="above">
+                <mat-icon>content_copy</mat-icon>
+            </button>
+        </div>
+        <div class="code">
+            <div class="code-container code-scrollable"
+                 [innerHTML]="request?.variables | pretty"></div>
+        </div>
+    </section>
+    <section>
+        <div class="section-title">
+            <h2>Response</h2>
+        </div>
+        <div class="code">
+            <div class="code-container code-scrollable"
+                 [innerHTML]="response$ | async | pretty"></div>
+        </div>
+    </section>
+    <!-- <section>
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="openedPanel$() === 1"
+                                 (opened)="setOpenedPanel(1)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Query</mat-panel-title>
+                    <mat-panel-description> The query that is being performed. </mat-panel-description>
+                </mat-expansion-panel-header>
+                <section class="code">
+                    <div class="code-container code-container-no-padding">
+                        <textarea rows="20"
+                                  disabled>{{query}}</textarea>
+                    </div>
+                </section>
+            </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="openedPanel$() === 2"
-                             (opened)="setOpenedPanel(2)">
-            <mat-expansion-panel-header>
-                <mat-panel-title>Variables</mat-panel-title>
-                <mat-panel-description> The variables included in the query. </mat-panel-description>
-            </mat-expansion-panel-header>
-            <section class="code">
-                <div class="code-container code-scrollable"
-                     [innerHTML]="request?.variables| pretty"></div>
-            </section>
-        </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="openedPanel$() === 2"
+                                 (opened)="setOpenedPanel(2)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Variables</mat-panel-title>
+                    <mat-panel-description> The variables included in the query. </mat-panel-description>
+                </mat-expansion-panel-header>
+                <section class="code">
+                    <div class="code-container code-scrollable"
+                         [innerHTML]="request?.variables| pretty"></div>
+                </section>
+            </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="openedPanel$() === 3"
-                             (opened)="setOpenedPanel(3)">
-            <mat-expansion-panel-header>
-                <mat-panel-title>Response</mat-panel-title>
-                <mat-panel-description> The response of the query. </mat-panel-description>
-            </mat-expansion-panel-header>
-            <section class="code">
-                <div class="code-container code-scrollable"
-                     [innerHTML]="response$ | async | pretty"></div>
-            </section>
-        </mat-expansion-panel>
-    </mat-accordion>
+            <mat-expansion-panel [expanded]="openedPanel$() === 3"
+                                 (opened)="setOpenedPanel(3)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Response</mat-panel-title>
+                    <mat-panel-description> The response of the query. </mat-panel-description>
+                </mat-expansion-panel-header>
+                <section class="code">
+                    <div class="code-container code-scrollable"
+                         [innerHTML]="response$ | async | pretty"></div>
+                </section>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </section> -->
 </section>

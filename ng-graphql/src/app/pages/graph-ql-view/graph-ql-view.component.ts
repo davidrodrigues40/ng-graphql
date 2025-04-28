@@ -1,17 +1,18 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, signal, Type, WritableSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { PrettyPipe } from 'src/app/pipes/pretty/pretty.pipe';
 import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
 import { BehaviorSubject } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { Field, Operator, QueryPayload, SearchQueryBuilder, Variable } from 'query-builder';
+import { Field, Operator, QueryPayload, RequestVariables, SearchQueryBuilder, Variable } from 'query-builder';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-graph-ql-view',
@@ -26,7 +27,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatChipsModule,
     MatIconModule,
     MatExpansionModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSelectModule
   ],
   providers: [GraphQlService],
   templateUrl: './graph-ql-view.component.html',
@@ -44,34 +46,40 @@ export class GraphQlViewComponent {
   response$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   openedPanel$: WritableSignal<number> = signal(0);
   enableApi: boolean = false;
-  apiUrl: string = 'https://localhost/PersonApi/graphql';
+  apiUrl: string = 'https://myvector-dev.a1tde.net/PersonApi/graphql';
+  searchTermTypes: Type<String | Number>[] = [String, Number];
+  searchTermType: Type<String | Number> = String;
+  searchField: string = '';
+  searchVariables: Variable<String | Number>[] = [];
+  rows: number = 0;
+
+  private pretty: JsonPipe = new JsonPipe();
 
   constructor(private readonly _service: GraphQlService) { }
 
   getQuery(): void {
     try {
+      let term: string | number = this.searchTermType === Number ? Number(this.searchTerm) : this.searchTerm;
       this.builder = new SearchQueryBuilder('persons');
 
       this.builder
         .take(this.take)
         .skip(this.skip)
-        .addVariable(new Variable('searchTerm', this.searchTerm, String))
-        .addVariable(new Variable('coreType', 'military', String))
-        .addOrCondition(new Field('activeDisplayGradeAndFullName'), Operator.CONTAINS, '$searchTerm')
-        .addOrCondition(new Field('activeDodId'), Operator.CONTAINS, '$searchTerm')
-        .addAndCondition(new Field('activeCoreType'), Operator.EQ, '$coreType');
+        .addVariable(new Variable('searchTerm', term, this.searchTermType))
+        .addAndCondition(new Field(this.searchField), Operator.EQ, '$searchTerm');
 
       this.fieldNames.forEach(fieldName => {
         this.builder.return(fieldName);
       });
-
       let request: QueryPayload = this.builder.build();
 
       this.query = request.query;
       this.request = request;
 
+      this.rows = request.query.split('\n').length;
+
       if (this.enableApi)
-        this._service.Query(request, 'https://localhost/PersonApi/graphql')
+        this._service.Query(request, this.apiUrl)
           .subscribe((response: any) => {
             if (response.error)
               this.response$.next({ error: response.error.errors[0].message });
@@ -101,8 +109,26 @@ export class GraphQlViewComponent {
     this.fieldNames = this.fieldNames.filter(x => x !== fieldName);
   }
 
+  removeSearchTerm(variable: Variable<String | Number>): void {
+    this.searchVariables = this.searchVariables.filter(x => x !== variable);
+  }
+
   setOpenedPanel(index: number): void {
     this.openedPanel$.set(index);
+  }
+
+  copyToClipboard(value: string | undefined): void {
+    if (!value) return;
+    navigator.clipboard.writeText(value).then(() => {
+      alert('Copied to clipboard');
+    });
+  }
+
+  copyVariableToClipboard(variable: RequestVariables | undefined): void {
+    if (!variable) return;
+    navigator.clipboard.writeText(this.pretty.transform(variable)).then(() => {
+      alert('Copied to clipboard');
+    });
   }
 
   clear(): void {

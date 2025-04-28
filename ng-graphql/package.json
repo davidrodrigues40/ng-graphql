@@ -22,7 +22,7 @@
     "@angular/router": "^18.2.11",
     "@ngrx/effects": "^18.1.1",
     "@ngrx/store": "^18.1.1",
-    "query-builder": "file:../../../ng-graphql-builder/ng-graphql-query-builder/graphql-builder/dist/query-builder",
+    "query-builder": "file:C:/src/personal/ng-graphql-builder/ng-graphql-query-builder/graphql-builder/dist/query-builder",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "^0.14.10"
