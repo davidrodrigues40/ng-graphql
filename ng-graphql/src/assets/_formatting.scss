@@ -14,5 +14,11 @@
         flex-direction: row;
         column-gap: $gap;
         align-items: baseline;
+
+        &--top {
+            align-items: flex-start;
+        }
     }
+
+
 }

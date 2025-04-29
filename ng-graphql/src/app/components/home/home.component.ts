@@ -1,13 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/bread-crumb.service';
+import { MenuComponent } from '../menu/menu.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  standalone: true,
+  imports: [
+    MenuComponent,
+  ],
   providers: [
-    MatButtonModule
+    MatButtonModule,
+    BrowserAnimationsModule
   ]
 })
 export class HomeComponent implements OnInit {

@@ -1,0 +1,10 @@
+<mat-form-field>
+    <mat-label>Search Type</mat-label>
+    <mat-select (selectionChange)="selectionChanged($event)"
+                placeholder="Select Search Type">
+        @for(type of searchTermTypes; track type) {
+        <mat-option [value]="type">{{type.name}}</mat-option>
+        }
+
+    </mat-select>
+</mat-form-field>

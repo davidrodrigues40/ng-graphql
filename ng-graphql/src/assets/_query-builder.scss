@@ -1,0 +1,51 @@
+@import 'src/assets/variables.scss';
+@import 'src/assets/formatting';
+
+.code {
+    width: 100%;
+
+    &-container {
+        padding: $gap;
+        background-color: $gray-light;
+        color: darken($gray-dark, 10%);
+
+        &-no-padding {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        &>textarea {
+            color: darken($gray-dark, 10%);
+            width: 99.5%;
+            padding: $gap;
+            border: 0;
+
+            &:disabled {
+                background-color: transparent;
+            }
+        }
+    }
+
+    &-scrollable {
+        overflow: auto;
+    }
+}
+
+.api-section {
+    height: 76px;
+    align-items: center;
+
+    &--input {
+        flex-grow: 2;
+    }
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.query-builder-section {
+    margin-bottom: $gap;
+}

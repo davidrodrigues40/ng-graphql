@@ -19,10 +19,6 @@ export class MenuComponent {
 
   menuItems: NavigationItem[] = [
     {
-      name: 'Home',
-      url: 'home'
-    },
-    {
       name: 'GraphQL Builder',
       url: 'graphql'
     }

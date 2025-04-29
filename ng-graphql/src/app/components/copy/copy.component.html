@@ -1,0 +1,11 @@
+<div matTooltip="No text to copy"
+     [matTooltipDisabled]="text.length > 0">
+    <button mat-icon-button
+            type="button"
+            (click)="copyToClipboard()"
+            [disabled]="text.length === 0"
+            [matTooltip]="tooltip"
+            matTooltipPosition="above">
+        <mat-icon>content_copy</mat-icon>
+    </button>
+</div>

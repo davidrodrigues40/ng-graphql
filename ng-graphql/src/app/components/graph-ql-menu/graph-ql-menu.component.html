@@ -1,0 +1,5 @@
+@for (item of menuItems; track item) {
+<button mat-button
+        [disabled]="disabled(item)"
+        (click)="goTo(item)">{{item.name}}</button>
+}

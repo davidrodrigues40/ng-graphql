@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
+@import '@angular/material/prebuilt-themes/azure-blue.css';
 @import 'src/assets/variables';
-@import 'src/assets/themes/theme';
 @import 'src/assets/flex/flex';
 
 html,
@@ -9,32 +9,19 @@ body {
   font-size: $font-size;
   height: 100%;
   margin: 0;
-  color: mat.get-theme-color($theme, secondary, 10);
-  background-color: mat.get-theme-color($theme, neutral, 50);
 }
 
 a,
 a:visited {
-  color: mat.get-theme-color($theme, primary, 30) !important;
   text-decoration: none;
 }
 
-label,
-.label {
-  margin-right: $gap;
-  color: mat.get-theme-color($theme, secondary, 20) !important;
-}
+// label,
+// .label {
+//   color: $secondary-color;
+// }
 
-.filter {
-  padding-bottom: $gap;
-  border-bottom: 1px solid mat.get-theme-color($theme, secondary, 10);
-  width: 100%;
-}
-
-h4 {
-  color: mat.get-theme-color($theme, primary, 40);
-}
-
-:root {
-  @include mat.all-component-themes($theme);
-}
+// .filter {
+//   padding-bottom: $gap;
+//   width: 100%;
+// }

@@ -1,0 +1,117 @@
+<div>
+    <div class="query-builder-section">
+        <div id="enable-api"
+             class="section section-row">
+            <mat-slide-toggle [(ngModel)]="enableApi">Enable API Call</mat-slide-toggle>
+            <mat-form-field class="api-section--input">
+                <mat-label>API URL</mat-label>
+                <input matInput
+                       type="string"
+                       [(ngModel)]="apiUrl"
+                       placeholder="API URL">
+            </mat-form-field>
+        </div>
+
+        <div id="search-params"
+             class="section section-row">
+            <mat-form-field>
+                <mat-label>Term</mat-label>
+                <input matInput
+                       type="string"
+                       [(ngModel)]="searchTerm"
+                       placeholder="Search Term">
+            </mat-form-field>
+            <app-search-type-selector
+                                      (searchTermTypeChanged)="searchTermTypeChanged($event)"></app-search-type-selector>
+            <mat-form-field>
+                <mat-label>Search Field</mat-label>
+                <input matInput
+                       type="string"
+                       [(ngModel)]="searchField"
+                       placeholder="Search Field">
+            </mat-form-field>
+        </div>
+
+        <div id="return-fields"
+             class="section section-row section-row--top">
+            <mat-form-field>
+                <mat-label>Return Field</mat-label>
+                <input matInput
+                       (keypress)="fieldKeyPressed($event)"
+                       type="string"
+                       [(ngModel)]="fieldName"
+                       placeholder="field to return">
+            </mat-form-field>
+            <button mat-stroked-button
+                    type="button"
+                    (click)="addField()">Add Field</button>
+        </div>
+
+        <div id="take-skip"
+             class="section section-row">
+            <mat-form-field>
+                <mat-label>Take</mat-label>
+                <input matInput
+                       type="number"
+                       [(ngModel)]="take"
+                       placeholder="take">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Skip</mat-label>
+                <input matInput
+                       type="number"
+                       [(ngModel)]="skip"
+                       placeholder="skip">
+            </mat-form-field>
+        </div>
+
+        <div id="search-terms">
+            <h5>Search Terms:</h5>
+            <mat-chip-set aria-label="Fish selection">
+                @for(term of searchVariables; track term) {
+                <mat-chip>
+                    {{term.name}}: {{term.value}} {{term.type.name}}
+                    <button matChipRemove
+                            (click)="removeSearchTerm(term)"><mat-icon>cancel</mat-icon></button>
+                </mat-chip>
+                }
+            </mat-chip-set>
+        </div>
+
+        <div>
+            <h5>Request Fields:</h5>
+            <mat-chip-set aria-label="Fish selection">
+                @for(field of fieldNames; track field) {
+                <mat-chip>
+                    {{field}}
+                    <button matChipRemove
+                            (click)="removeField(field)"><mat-icon>cancel</mat-icon></button>
+                </mat-chip>
+                }
+            </mat-chip-set>
+        </div>
+
+        <div>
+            <button mat-stroked-button
+                    type="button"
+                    (click)="clear()">Clear</button>
+            <button mat-flat-button
+                    type="button"
+                    (click)="getQuery()">Get Query</button>
+        </div>
+    </div>
+    <div id="query"
+         class="query-builder-section">
+        <app-ql-query [query]="query"></app-ql-query>
+    </div>
+
+    <div id="variables"
+         class="query-builder-section">
+        <app-ql-variables [variables]="request?.variables"></app-ql-variables>
+    </div>
+
+    <div id="response"
+         class="query-builder-section">
+        <app-ql-response [response]="response()"></app-ql-response>
+    </div>
+</div>

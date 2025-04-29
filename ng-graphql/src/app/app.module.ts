@@ -3,7 +3,6 @@ import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ProperCasePipe } from './pipes/proper-case.pipe';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { BreadCrumbsComponent } from './components/bread-crumbs/bread-crumbs.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,7 +19,6 @@ import { AuthInterceptor } from './interceptors/auth-interceptor';
     declarations: [
         AppComponent,
         ProperCasePipe,
-        HomeComponent
     ],
     imports: [
         BreadCrumbsComponent,

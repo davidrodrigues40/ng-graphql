@@ -1,4 +1,7 @@
 $gap: 16px;
 $font-size: $gap;
-$gray: #333;
-$code: rgba(239, 239, 239, 0.3)
+$gray: #b1b9bb;
+$gray-light: lighten($gray, 20%);
+$gray-dark: darken($gray, 20%);
+$primary-color: $gray;
+$secondary-color: #f5d795;
