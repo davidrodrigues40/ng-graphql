@@ -6,7 +6,7 @@ import { GraphQlResponse, PersonState } from 'src/app/state/person.state';
 
 @Injectable()
 export class GraphQlService {
-  private readonly _token: string = `Bearer ${localStorage.getItem('token')}`;
+  private readonly _token: string = '';
 
   constructor(private readonly _httpClient: HttpClient) { }
 

@@ -9,6 +9,7 @@ import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
 import { GraphQlResponse, PersonState } from 'src/app/state/person.state';
 import { QlResponseComponent } from 'src/app/components/ql-response/ql-response.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-person-api-favorites',
@@ -21,6 +22,7 @@ import { QlResponseComponent } from 'src/app/components/ql-response/ql-response.
     CommonModule,
     MatTabsModule,
     QlResponseComponent,
+    MatSlideToggleModule
   ],
   providers: [
     GraphQlService
@@ -31,7 +33,7 @@ import { QlResponseComponent } from 'src/app/components/ql-response/ql-response.
 export class PersonApiFavoritesComponent implements OnInit {
 
   ngOnInit(): void {
-    this.getQuery(0);
+    this.getQuery();
   }
   private readonly _service: GraphQlService = inject(GraphQlService);
   protected builder: SearchQueryBuilder = new SearchQueryBuilder('persons');
@@ -40,14 +42,17 @@ export class PersonApiFavoritesComponent implements OnInit {
   protected variables: WritableSignal<RequestVariables | undefined> = signal(undefined);
   protected response: WritableSignal<GraphQlResponse> = PersonState.persons;
   private readonly searchTermName: string = 'searchTerm';
+  private apiEnabled: boolean = false;
+  private currentIndex: number = 0;
 
   protected tabChanged(event: MatTabChangeEvent): void {
-    this.getQuery(event.index);
+    this.currentIndex = event.index;
+    this.getQuery();
   }
 
-  protected getQuery(type: number): void {
+  private getQuery(): void {
     this.reset();
-    switch (type) {
+    switch (this.currentIndex) {
       case 0:
         this.getPersonByLegacyId();
         break;
@@ -65,6 +70,11 @@ export class PersonApiFavoritesComponent implements OnInit {
     }
 
     this.finish();
+  }
+
+  protected setApiStatus(): void {
+    this.apiEnabled = !this.apiEnabled;
+    this.getQuery();
   }
 
   private reset(): void {
@@ -125,8 +135,10 @@ export class PersonApiFavoritesComponent implements OnInit {
 
     this.query.set(request.query);
     this.variables.set(request.variables);
+    PersonState.persons.set(GraphQlResponse.emptyResponse());
 
-    this._service.Query(request, 'https://localhost/PersonApi/graphql/');
+    if (this.apiEnabled)
+      this._service.Query(request, 'https://localhost/PersonApi/graphql/');
   }
 
 }
