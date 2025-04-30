@@ -1,15 +1,16 @@
 <div class="display-flex flex-col-gap--sm align-items--center breadcrumbs">
-    <ng-container *ngFor="let breadcrumb of breadcrumbs$ | async; let last = last;">
-        <div *ngIf="last; else notlast">
-            <div>
-                <span class="breadcrumbs-last">{{breadcrumb.name}}</span>
-            </div>
-        </div>
-        <ng-template #notlast>
-            <div>
-                <a (click)="goto(breadcrumb)">{{breadcrumb.name}}</a>
-            </div>
-            <span>-</span>
-        </ng-template>
-    </ng-container>
+    @for(breadcrumb of breadcrumbs$(); track breadcrumb; let last = $last){
+    @if (last) {
+    <div>
+        <span class="breadcrumbs-last">{{breadcrumb.name}}</span>
+    </div>
+    }
+    @else
+    {
+    <div>
+        <a (click)="goto(breadcrumb)">{{breadcrumb.name}}</a>
+    </div>
+    <span>-</span>
+    }
+    }
 </div>

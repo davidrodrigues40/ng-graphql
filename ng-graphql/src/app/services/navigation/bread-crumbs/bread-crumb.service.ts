@@ -1,34 +1,45 @@
 import { Injectable } from '@angular/core';
 import { NavigationItem } from '../navigation-item';
-import { BreadcrumbState } from 'src/app/state/breadcrumbs/breadcrumbs-state';
-import { Store } from '@ngrx/store';
-import * as selectors from 'src/app/state/breadcrumbs/breadcrumbs-selectors';
-import * as actions from 'src/app/state/breadcrumbs/breadcrumbs-actions';
-import { Observable } from 'rxjs';
+import { BreadcrumbState } from 'src/app/state/breadcrumb.state';
 
-const initialBreadcrumbs: Array<NavigationItem> = [{ name: 'Home', url: '' }];
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BreadCrumbService {
-  private readonly _homeLink: NavigationItem = { name: 'Home', url: '' }
+  static readonly homeLink: NavigationItem = { name: 'Home', url: '' }
+  static readonly graphQlLink: NavigationItem = { name: 'GraphQL', url: 'graphql' }
+  static readonly personApiLink: NavigationItem = { name: 'Person API', url: 'person-api' }
 
-  constructor(private readonly _state: Store<BreadcrumbState>) { }
+  private static readonly _links: Array<NavigationItem> = [
+    BreadCrumbService.homeLink,
+    BreadCrumbService.graphQlLink,
+    BreadCrumbService.personApiLink
+  ];
 
-  getBreadcrumbs(): Observable<NavigationItem[]> {
-    return this._state.select(selectors.breadcrumbs);
+  constructor() { }
+
+  getIndex(url: string): number {
+    return BreadCrumbService._links.findIndex(link => link.url === url);
   }
 
-  setBreadcrumbs(breadcrumbs: NavigationItem[]): void {
-    this._state.dispatch(actions.BreadcrumbActions.set({ breadcrumbs: [...initialBreadcrumbs].concat(breadcrumbs) }));
+  setBreadcrumbs(index: number): void {
+    if (index > -1)
+      BreadcrumbState.breadcrumbs.set(BreadCrumbService._links.slice(0, index + 1));
+    else
+      BreadcrumbState.breadcrumbs.set([BreadCrumbService.homeLink]);
   }
 
   addBreadcrumb(breadcrumb: NavigationItem): void {
-    this._state.dispatch(actions.BreadcrumbActions.add({ breadcrumb }));
+    const breadcrumbs = BreadcrumbState.breadcrumbs();
+    breadcrumbs.push(breadcrumb);
+    BreadcrumbState.breadcrumbs.set(breadcrumbs);
   }
 
   gotoBreadcrumb(breadcrumb: NavigationItem): void {
-    this._state.dispatch(actions.BreadcrumbActions.goTo({ breadcrumb }));
+    const index = BreadCrumbService._links.findIndex(link => link.url === breadcrumb.url);
+
+    if (index > -1) {
+      BreadcrumbState.breadcrumbs.set(BreadCrumbService._links.slice(0, index + 1));
+    } else {
+      this.setBreadcrumbs(0);
+    }
   }
 }

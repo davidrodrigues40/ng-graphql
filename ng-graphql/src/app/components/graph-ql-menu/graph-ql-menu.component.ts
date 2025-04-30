@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationItem } from 'src/app/services/navigation/navigation-item';
-import { NavigationService } from 'src/app/services/navigation/service/navigation.service';
 
 @Component({
   selector: 'app-graph-ql-menu',
@@ -11,15 +10,15 @@ import { NavigationService } from 'src/app/services/navigation/service/navigatio
     MatButtonModule
   ],
   providers: [
-    NavigationService,
+    Router
   ],
   templateUrl: './graph-ql-menu.component.html',
   styleUrl: './graph-ql-menu.component.scss'
 })
 export class GraphQlMenuComponent {
 
-  private readonly navigationService = inject(NavigationService);
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   protected menuItems: NavigationItem[] = [
     {
@@ -29,7 +28,7 @@ export class GraphQlMenuComponent {
   ];
 
   protected goTo(item: NavigationItem): void {
-    this.navigationService.goForward(item);
+    this.router.navigate([item.url]);
   };
 
   protected disabled(item: NavigationItem): boolean {

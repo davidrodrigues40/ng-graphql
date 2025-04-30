@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
+import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/bread-crumb.service';
 import { NavigationItem } from 'src/app/services/navigation/navigation-item';
-import { NavigationService } from 'src/app/services/navigation/service/navigation.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,11 +12,15 @@ import { NavigationService } from 'src/app/services/navigation/service/navigatio
     CommonModule,
     MatButtonModule
   ],
+  providers: [
+    BreadCrumbService,
+    Router
+  ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent {
-  constructor(private readonly _service: NavigationService) { }
+  private readonly _router: Router = inject(Router);
 
   menuItems: NavigationItem[] = [
     {
@@ -25,6 +30,6 @@ export class MenuComponent {
   ];
 
   goto(menuItem: NavigationItem): void {
-    this._service.goForward(menuItem);
+    this._router.navigateByUrl(menuItem.url);
   }
 }
