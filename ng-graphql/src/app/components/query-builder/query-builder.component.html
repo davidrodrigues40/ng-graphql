@@ -18,8 +18,7 @@
                 <mat-label>Term</mat-label>
                 <input matInput
                        type="string"
-                       [(ngModel)]="searchTerm"
-                       placeholder="Search Term">
+                       [(ngModel)]="searchTerm">
             </mat-form-field>
             <app-search-type-selector
                                       (searchTermTypeChanged)="searchTermTypeChanged($event)"></app-search-type-selector>
@@ -27,8 +26,7 @@
                 <mat-label>Search Field</mat-label>
                 <input matInput
                        type="string"
-                       [(ngModel)]="searchField"
-                       placeholder="Search Field">
+                       [(ngModel)]="searchField">
             </mat-form-field>
         </div>
 
@@ -39,8 +37,7 @@
                 <input matInput
                        (keypress)="fieldKeyPressed($event)"
                        type="string"
-                       [(ngModel)]="fieldName"
-                       placeholder="field to return">
+                       [(ngModel)]="fieldName">
             </mat-form-field>
             <button mat-stroked-button
                     type="button"
@@ -53,15 +50,13 @@
                 <mat-label>Take</mat-label>
                 <input matInput
                        type="number"
-                       [(ngModel)]="take"
-                       placeholder="take">
+                       [(ngModel)]="take">
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Skip</mat-label>
                 <input matInput
                        type="number"
-                       [(ngModel)]="skip"
-                       placeholder="skip">
+                       [(ngModel)]="skip">
             </mat-form-field>
         </div>
 

@@ -32,11 +32,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 })
 export class PersonApiFavoritesComponent implements OnInit {
 
-  ngOnInit(): void {
-    this.getQuery();
-  }
   private readonly _service: GraphQlService = inject(GraphQlService);
-  protected builder: SearchQueryBuilder = new SearchQueryBuilder('persons');
+  private builder: SearchQueryBuilder = new SearchQueryBuilder('persons');
   protected payload: WritableSignal<QueryPayload | undefined> = signal(undefined);
   protected query: WritableSignal<string> = signal('');
   protected variables: WritableSignal<RequestVariables | undefined> = signal(undefined);
@@ -44,6 +41,10 @@ export class PersonApiFavoritesComponent implements OnInit {
   private readonly searchTermName: string = 'searchTerm';
   private apiEnabled: boolean = false;
   private currentIndex: number = 0;
+
+  ngOnInit(): void {
+    this.getQuery();
+  }
 
   protected tabChanged(event: MatTabChangeEvent): void {
     this.currentIndex = event.index;
@@ -79,58 +80,51 @@ export class PersonApiFavoritesComponent implements OnInit {
 
   private reset(): void {
     this.builder = new SearchQueryBuilder('persons');
-
   }
 
   private getPersonByLegacyId(): void {
+    if (!this.builder) return;
     this.builder
       .take(10)
       .skip(0)
       .addVariable(new Variable(this.searchTermName, 355, Number))
       .addAndCondition(new Field('legacyPersonId'), Operator.EQ, `$${this.searchTermName}`)
-      .return('items.firstName')
-      .return('items.lastName')
-      .return('items.activeDisplayGradeAndFullName')
-      .return('items.activeDodId');
+      .return(['items.firstName', 'items.lastName', 'items.activeDisplayGradeAndFullName', 'items.activeDodId']);
   }
 
   private getPersonByIdentifier(): void {
+    if (!this.builder) return;
     this.builder
       .take(10)
       .skip(0)
       .addVariable(new Variable(this.searchTermName, 'd3fd4a58-8978-4013-996d-02c1455abab1', String))
       .addAndCondition(new Field('personIdentifier'), Operator.EQ, `$${this.searchTermName}`)
-      .return('items.firstName')
-      .return('items.lastName')
-      .return('items.activeDisplayGradeAndFullName');
+      .return('items.firstName');
   }
 
   private getByDodId(): void {
+    if (!this.builder) return;
     this.builder
       .take(10)
       .skip(0)
       .addVariable(new Variable(this.searchTermName, '1234568091', String))
       .addAndCondition(new Field('activeDodId'), Operator.EQ, `$${this.searchTermName}`)
-      .return('items.firstName')
-      .return('items.lastName')
-      .return('items.activeDisplayGradeAndFullName');
+      .return(['items.firstName', 'items.lastName', 'items.activeDisplayGradeAndFullName']);
   }
 
   private getByCommonFields(): void {
+    if (!this.builder) return;
     this.builder
       .take(10)
       .skip(0)
       .addVariable(new Variable(this.searchTermName, 'bennett', String))
       .addOrCondition(new Field('activeDodId'), Operator.CONTAINS, `$${this.searchTermName}`)
       .addOrCondition(new Field('activeDisplayGradeAndFullName'), Operator.CONTAINS, `$${this.searchTermName}`)
-      .return('totalCount')
-      .return('items.firstName')
-      .return('items.lastName')
-      .return('items.activeDisplayGradeAndFullName')
-      .return('items.activeDodId');
+      .return(['totalCount', 'items.firstName', 'items.lastName', 'items.activeDisplayGradeAndFullName', 'items.activeDodId']);
   }
 
   private finish(): void {
+    if (!this.builder) return;
     const request = this.builder.build();
 
     this.query.set(request.query);

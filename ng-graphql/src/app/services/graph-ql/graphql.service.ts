@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
-import { QueryPayload } from 'query-builder';
 import { GraphQlResponse, PersonState } from 'src/app/state/person.state';
+import { QueryPayload } from 'query-builder';
 
 @Injectable()
 export class GraphQlService {
@@ -19,5 +19,3 @@ export class GraphQlService {
       .subscribe((response: GraphQlResponse) => PersonState.persons.set(response));
   }
 }
-
-

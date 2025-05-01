@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, Type, WritableSignal } from '@angular/core';
+import { Component, inject, signal, Type, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -36,7 +36,7 @@ import { GraphQlResponse, PersonState } from 'src/app/state/person.state';
     QlQueryComponent,
     QlVariablesComponent,
     QlResponseComponent,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
   providers: [GraphQlService],
   templateUrl: './query-builder.component.html',
@@ -51,7 +51,6 @@ export class QueryBuilderComponent {
   fieldNames: string[] = [];
   searchTerm: string = '';
   request: QueryPayload | undefined = undefined;
-  builder: SearchQueryBuilder = new SearchQueryBuilder('persons');
   openedPanel$: WritableSignal<number> = signal(0);
   enableApi: boolean = false;
   apiUrl: string = 'https://localhost/PersonApi/graphql';
@@ -61,24 +60,25 @@ export class QueryBuilderComponent {
   searchVariables: Variable<String | Number>[] = [];
   rows: number = 0;
   response: WritableSignal<GraphQlResponse> = PersonState.persons;
+  builderService: SearchQueryBuilder = inject(SearchQueryBuilder);
 
   constructor(private readonly _service: GraphQlService) { }
 
   getQuery(): void {
     try {
       let term: string | number = this.searchTermType === Number ? Number(this.searchTerm) : this.searchTerm;
-      this.builder = new SearchQueryBuilder('persons');
+      var builder = new SearchQueryBuilder('persons');
 
-      this.builder
+      builder
         .take(this.take)
         .skip(this.skip)
         .addVariable(new Variable('searchTerm', term, this.searchTermType))
         .addAndCondition(new Field(this.searchField), Operator.EQ, '$searchTerm');
 
       this.fieldNames.forEach(fieldName => {
-        this.builder.return(fieldName);
+        builder.return(fieldName);
       });
-      let request: QueryPayload = this.builder.build();
+      let request: QueryPayload = builder.build();
 
       this.query = request.query;
       this.request = request;
@@ -119,7 +119,6 @@ export class QueryBuilderComponent {
     this.fieldNames = [];
     this.take = 10;
     this.skip = 0;
-    this.builder = new SearchQueryBuilder('persons');
     this.openedPanel$.set(0);
   }
 

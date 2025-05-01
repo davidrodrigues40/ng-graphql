@@ -1,8 +1,7 @@
-@use '@angular/material' as mat;
-@import 'src/assets/themes/theme';
+@import 'src/assets/variables.scss';
 
 .breadcrumbs {
-    color: map-get($theme, primary, 40);
+    color: $azure-blue;
     height: 25px;
 
     & a {
@@ -12,6 +11,6 @@
     }
 
     &-last {
-        color: mat.get-theme-color($theme, secondary, 80);
+        color: $gray;
     }
 }
