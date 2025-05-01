@@ -1,7 +1,14 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit, WritableSignal } from '@angular/core';
 import { GraphQlMenuComponent } from "../../components/graph-ql-menu/graph-ql-menu.component";
 import { QlQueryComponent } from "../../components/ql-query/ql-query.component";
-import { Field, Operator, QueryPayload, RequestVariables, SearchQueryBuilder, Variable } from 'query-builder';
+import {
+  Field,
+  Operator,
+  RequestVariables,
+  SEARCH_QUERY_NAME,
+  SearchQueryBuilder,
+  Variable,
+} from 'query-builder';
 import { MatButtonModule } from '@angular/material/button';
 import { QlVariablesComponent } from "../../components/ql-variables/ql-variables.component";
 import { CommonModule } from '@angular/common';
@@ -25,7 +32,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatSlideToggleModule
   ],
   providers: [
-    GraphQlService
+    GraphQlService,
+    { provide: SEARCH_QUERY_NAME, useValue: 'persons' },
+    SearchQueryBuilder
   ],
   templateUrl: './person-api-favorites.component.html',
   styleUrl: './person-api-favorites.component.scss'
@@ -33,27 +42,27 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 export class PersonApiFavoritesComponent implements OnInit {
 
   private readonly _service: GraphQlService = inject(GraphQlService);
-  private builder: SearchQueryBuilder = new SearchQueryBuilder('persons');
-  protected payload: WritableSignal<QueryPayload | undefined> = signal(undefined);
-  protected query: WritableSignal<string> = signal('');
-  protected variables: WritableSignal<RequestVariables | undefined> = signal(undefined);
+  private builder: SearchQueryBuilder = inject(SearchQueryBuilder);
+  protected query: WritableSignal<string> = PersonState.query;
+  protected variables: WritableSignal<RequestVariables | undefined> = PersonState.variables;
   protected response: WritableSignal<GraphQlResponse> = PersonState.persons;
   private readonly searchTermName: string = 'searchTerm';
-  private apiEnabled: boolean = false;
-  private currentIndex: number = 0;
+  protected currentIndex: WritableSignal<number> = PersonState.tabIndex;
+  protected readonly apiEnabled: WritableSignal<boolean> = PersonState.enableApi;
 
   ngOnInit(): void {
     this.getQuery();
+    console.log('enabled', this.apiEnabled());
   }
 
   protected tabChanged(event: MatTabChangeEvent): void {
-    this.currentIndex = event.index;
+    this.currentIndex.set(event.index);
     this.getQuery();
   }
 
   private getQuery(): void {
     this.reset();
-    switch (this.currentIndex) {
+    switch (this.currentIndex()) {
       case 0:
         this.getPersonByLegacyId();
         break;
@@ -74,12 +83,12 @@ export class PersonApiFavoritesComponent implements OnInit {
   }
 
   protected setApiStatus(): void {
-    this.apiEnabled = !this.apiEnabled;
+    this.apiEnabled.set(!this.apiEnabled());
     this.getQuery();
   }
 
   private reset(): void {
-    this.builder = new SearchQueryBuilder('persons');
+    this.builder = new SearchQueryBuilder();
   }
 
   private getPersonByLegacyId(): void {
@@ -125,13 +134,13 @@ export class PersonApiFavoritesComponent implements OnInit {
 
   private finish(): void {
     if (!this.builder) return;
-    const request = this.builder.build();
+    const request = this.builder.build('persons');
 
     this.query.set(request.query);
     this.variables.set(request.variables);
     PersonState.persons.set(GraphQlResponse.emptyResponse());
 
-    if (this.apiEnabled)
+    if (this.apiEnabled())
       this._service.Query(request, 'https://localhost/PersonApi/graphql/');
   }
 

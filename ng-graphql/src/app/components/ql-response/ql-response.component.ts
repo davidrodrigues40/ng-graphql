@@ -15,7 +15,9 @@ export class QlResponseComponent implements OnInit, OnChanges {
   @Input() response: GraphQlResponse = {
     data: {}
   };
-  protected rows: WritableSignal<number> = signal(0);
+
+  protected readonly responseTime: WritableSignal<number> = signal(0);
+  protected readonly rows: WritableSignal<number> = signal(0);
 
   ngOnInit(): void {
     this.setRows();

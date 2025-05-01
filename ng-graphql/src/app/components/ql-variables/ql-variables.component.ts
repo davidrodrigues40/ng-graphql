@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RequestVariables } from 'query-builder';
-import { PrettyPipe } from 'src/app/pipes/pretty/pretty.pipe';
 import { CopyComponent } from '../copy/copy.component';
 
 @Component({
@@ -13,7 +12,6 @@ import { CopyComponent } from '../copy/copy.component';
   imports: [
     MatButtonModule,
     MatIconModule,
-    PrettyPipe,
     MatSnackBarModule,
     CopyComponent,
     CommonModule

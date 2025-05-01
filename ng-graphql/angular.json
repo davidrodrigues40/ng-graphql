@@ -91,6 +91,9 @@
               "zone.js",
               "zone.js/testing"
             ],
+            "reporters": [
+              "lcov"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [

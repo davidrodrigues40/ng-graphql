@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
-import { QueryBuilderComponent } from "../../components/query-builder/query-builder.component";
 import { GraphQlMenuComponent } from 'src/app/components/graph-ql-menu/graph-ql-menu.component';
+import { QueryBuilderComponent } from 'src/app/components/query-builder/query-builder.component';
 
 @Component({
   selector: 'app-graph-ql-view',

@@ -9,7 +9,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Field, Operator, QueryPayload, SearchQueryBuilder, Variable } from 'query-builder';
+import {
+  Field,
+  Operator,
+  QueryPayload,
+  SEARCH_QUERY_NAME,
+  SearchQueryBuilder,
+  Variable
+} from 'query-builder';
 import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
 import { SearchTypeSelectorComponent } from '../search-type-selector/search-type-selector.component';
 import { QlQueryComponent } from '../ql-query/ql-query.component';
@@ -17,7 +24,6 @@ import { QlVariablesComponent } from "../ql-variables/ql-variables.component";
 import { QlResponseComponent } from '../ql-response/ql-response.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GraphQlResponse, PersonState } from 'src/app/state/person.state';
-
 @Component({
   selector: 'app-query-builder',
   standalone: true,
@@ -38,7 +44,10 @@ import { GraphQlResponse, PersonState } from 'src/app/state/person.state';
     QlResponseComponent,
     MatSnackBarModule,
   ],
-  providers: [GraphQlService],
+  providers: [
+    GraphQlService,
+    { provide: SEARCH_QUERY_NAME, useValue: 'persons' },
+    SearchQueryBuilder,],
   templateUrl: './query-builder.component.html',
   styleUrl: './query-builder.component.scss'
 })
@@ -60,25 +69,24 @@ export class QueryBuilderComponent {
   searchVariables: Variable<String | Number>[] = [];
   rows: number = 0;
   response: WritableSignal<GraphQlResponse> = PersonState.persons;
-  builderService: SearchQueryBuilder = inject(SearchQueryBuilder);
+  builder: SearchQueryBuilder = inject(SearchQueryBuilder);
 
   constructor(private readonly _service: GraphQlService) { }
 
   getQuery(): void {
     try {
       let term: string | number = this.searchTermType === Number ? Number(this.searchTerm) : this.searchTerm;
-      var builder = new SearchQueryBuilder('persons');
 
-      builder
+      this.builder
         .take(this.take)
         .skip(this.skip)
         .addVariable(new Variable('searchTerm', term, this.searchTermType))
         .addAndCondition(new Field(this.searchField), Operator.EQ, '$searchTerm');
 
       this.fieldNames.forEach(fieldName => {
-        builder.return(fieldName);
+        this.builder.return(fieldName);
       });
-      let request: QueryPayload = builder.build();
+      let request: QueryPayload = this.builder.build('persons');
 
       this.query = request.query;
       this.request = request;
