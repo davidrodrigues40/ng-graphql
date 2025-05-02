@@ -7,17 +7,16 @@ import { RequestVariables } from 'query-builder';
 import { CopyComponent } from '../copy/copy.component';
 
 @Component({
-  selector: 'app-ql-variables',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule,
-    CopyComponent,
-    CommonModule
-  ],
-  templateUrl: './ql-variables.component.html',
-  styleUrl: './ql-variables.component.scss'
+    selector: 'app-ql-variables',
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        MatSnackBarModule,
+        CopyComponent,
+        CommonModule
+    ],
+    templateUrl: './ql-variables.component.html',
+    styleUrl: './ql-variables.component.scss'
 })
 export class QlVariablesComponent {
   @Input() variables: RequestVariables | undefined = undefined;

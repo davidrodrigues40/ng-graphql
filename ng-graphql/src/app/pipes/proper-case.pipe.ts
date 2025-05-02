@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'propercase'
+    name: 'propercase',
+    standalone: false
 })
 export class ProperCasePipe implements PipeTransform {
 

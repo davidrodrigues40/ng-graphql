@@ -2,11 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { BookSearchType } from 'src/app/enums/book-search-type.enum';
 
 @Component({
-  selector: 'app-book-search-type',
-  standalone: true,
-  imports: [],
-  templateUrl: './book-search-type.component.html',
-  styleUrl: './book-search-type.component.scss'
+    selector: 'app-book-search-type',
+    imports: [],
+    templateUrl: './book-search-type.component.html',
+    styleUrl: './book-search-type.component.scss'
 })
 export class BookSearchTypeComponent {
   @Output()

@@ -2,11 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { QueryOperator } from 'src/app/enums/query-operator.enum';
 
 @Component({
-  selector: 'app-operators',
-  standalone: true,
-  imports: [],
-  templateUrl: './operators.component.html',
-  styleUrl: './operators.component.scss'
+    selector: 'app-operators',
+    imports: [],
+    templateUrl: './operators.component.html',
+    styleUrl: './operators.component.scss'
 })
 export class OperatorsComponent {
   @Input()

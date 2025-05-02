@@ -10,14 +10,15 @@ import { BookSearchTypeComponent } from './components/book-search-type/book-sear
 import { NavigationService } from 'src/app/services/navigation/service/navigation.service';
 
 @Component({
-  selector: 'app-books',
-  templateUrl: './books.component.html',
-  styleUrls: ['./books.component.scss'],
-  providers: [
-    BookSearchTypeComponent,
-    BookViewComponent,
-    GraphQlService
-  ]
+    selector: 'app-books',
+    templateUrl: './books.component.html',
+    styleUrls: ['./books.component.scss'],
+    providers: [
+        BookSearchTypeComponent,
+        BookViewComponent,
+        GraphQlService
+    ],
+    standalone: false
 })
 export class BooksComponent extends PageComponent implements OnInit {
   private readonly authorPlaceholder: string = 'ex. J. R. R. Tolkien';

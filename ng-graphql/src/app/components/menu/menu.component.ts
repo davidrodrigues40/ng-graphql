@@ -6,18 +6,17 @@ import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/brea
 import { NavigationItem } from 'src/app/services/navigation/navigation-item';
 
 @Component({
-  selector: 'app-menu',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule
-  ],
-  providers: [
-    BreadCrumbService,
-    Router
-  ],
-  templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss'
+    selector: 'app-menu',
+    imports: [
+        CommonModule,
+        MatButtonModule
+    ],
+    providers: [
+        BreadCrumbService,
+        Router
+    ],
+    templateUrl: './menu.component.html',
+    styleUrl: './menu.component.scss'
 })
 export class MenuComponent {
   private readonly _router: Router = inject(Router);

@@ -7,18 +7,17 @@ import { BreadcrumbState } from 'src/app/state/breadcrumb.state';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-breadcrumbs',
-  templateUrl: './bread-crumbs.component.html',
-  styleUrls: ['./bread-crumbs.component.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule
-  ],
-  providers: [
-    BreadCrumbService,
-    Router
-  ]
+    selector: 'app-breadcrumbs',
+    templateUrl: './bread-crumbs.component.html',
+    styleUrls: ['./bread-crumbs.component.scss'],
+    imports: [
+        CommonModule,
+        MatIconModule
+    ],
+    providers: [
+        BreadCrumbService,
+        Router
+    ]
 })
 export class BreadCrumbsComponent {
   private readonly _router: Router = inject(Router);

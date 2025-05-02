@@ -5,12 +5,14 @@ import { Router, Event, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  providers: [
-    MenuComponent,
-    BreadCrumbService]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    providers: [
+        MenuComponent,
+        BreadCrumbService
+    ],
+    standalone: false
 })
 export class AppComponent implements OnInit {
   constructor(private readonly _router: Router) { }

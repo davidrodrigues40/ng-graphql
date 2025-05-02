@@ -4,15 +4,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'app-search-type-selector',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule
-  ],
-  templateUrl: './search-type-selector.component.html',
-  styleUrl: './search-type-selector.component.scss'
+    selector: 'app-search-type-selector',
+    imports: [
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule
+    ],
+    templateUrl: './search-type-selector.component.html',
+    styleUrl: './search-type-selector.component.scss'
 })
 export class SearchTypeSelectorComponent {
   @Output() searchTermTypeChanged: EventEmitter<Type<String | Number>> = new EventEmitter<Type<String | Number>>();

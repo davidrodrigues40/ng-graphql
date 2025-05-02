@@ -25,31 +25,31 @@ import { QlResponseComponent } from '../ql-response/ql-response.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GraphQlResponse, PersonState } from 'src/app/state/person.state';
 @Component({
-  selector: 'app-query-builder',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatChipsModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    SearchTypeSelectorComponent,
-    QlQueryComponent,
-    QlVariablesComponent,
-    QlResponseComponent,
-    MatSnackBarModule,
-  ],
-  providers: [
-    GraphQlService,
-    { provide: SEARCH_QUERY_NAME, useValue: 'persons' },
-    SearchQueryBuilder,],
-  templateUrl: './query-builder.component.html',
-  styleUrl: './query-builder.component.scss'
+    selector: 'app-query-builder',
+    imports: [
+        MatButtonModule,
+        CommonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatChipsModule,
+        MatIconModule,
+        MatExpansionModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        SearchTypeSelectorComponent,
+        QlQueryComponent,
+        QlVariablesComponent,
+        QlResponseComponent,
+        MatSnackBarModule,
+    ],
+    providers: [
+        GraphQlService,
+        { provide: SEARCH_QUERY_NAME, useValue: 'persons' },
+        SearchQueryBuilder,
+    ],
+    templateUrl: './query-builder.component.html',
+    styleUrl: './query-builder.component.scss'
 })
 export class QueryBuilderComponent {
 

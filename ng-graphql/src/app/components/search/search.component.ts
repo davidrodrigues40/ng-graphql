@@ -7,18 +7,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-search',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-  ],
-  templateUrl: './search.component.html',
-  styleUrl: './search.component.scss'
+    selector: 'app-search',
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+    ],
+    templateUrl: './search.component.html',
+    styleUrl: './search.component.scss'
 })
 export class SearchComponent {
   @Input()

@@ -8,13 +8,12 @@ import * as actions from 'src/app/state/pdf/pdf-actions';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-pdf',
-  standalone: true,
-  imports: [
-    CommonModule
-  ],
-  templateUrl: './pdf.component.html',
-  styleUrl: './pdf.component.scss'
+    selector: 'app-pdf',
+    imports: [
+        CommonModule
+    ],
+    templateUrl: './pdf.component.html',
+    styleUrl: './pdf.component.scss'
 })
 export class PdfComponent implements OnInit {
   constructor(private readonly _state: Store<PdfState>) { }

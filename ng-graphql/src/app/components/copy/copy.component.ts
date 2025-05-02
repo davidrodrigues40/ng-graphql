@@ -5,18 +5,17 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-copy',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatTooltipModule,
-    MatIconModule
-  ],
-  providers: [
-    MatSnackBarModule
-  ],
-  templateUrl: './copy.component.html',
-  styleUrl: './copy.component.scss'
+    selector: 'app-copy',
+    imports: [
+        MatButtonModule,
+        MatTooltipModule,
+        MatIconModule
+    ],
+    providers: [
+        MatSnackBarModule
+    ],
+    templateUrl: './copy.component.html',
+    styleUrl: './copy.component.scss'
 })
 export class CopyComponent {
   @Input() text: string = '';

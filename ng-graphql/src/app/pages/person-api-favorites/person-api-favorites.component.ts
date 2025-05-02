@@ -19,25 +19,24 @@ import { QlResponseComponent } from 'src/app/components/ql-response/ql-response.
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
-  selector: 'app-person-api-favorites',
-  standalone: true,
-  imports: [
-    GraphQlMenuComponent,
-    QlQueryComponent,
-    MatButtonModule,
-    QlVariablesComponent,
-    CommonModule,
-    MatTabsModule,
-    QlResponseComponent,
-    MatSlideToggleModule
-  ],
-  providers: [
-    GraphQlService,
-    { provide: SEARCH_QUERY_NAME, useValue: 'persons' },
-    SearchQueryBuilder
-  ],
-  templateUrl: './person-api-favorites.component.html',
-  styleUrl: './person-api-favorites.component.scss'
+    selector: 'app-person-api-favorites',
+    imports: [
+        GraphQlMenuComponent,
+        QlQueryComponent,
+        MatButtonModule,
+        QlVariablesComponent,
+        CommonModule,
+        MatTabsModule,
+        QlResponseComponent,
+        MatSlideToggleModule
+    ],
+    providers: [
+        GraphQlService,
+        { provide: SEARCH_QUERY_NAME, useValue: 'persons' },
+        SearchQueryBuilder
+    ],
+    templateUrl: './person-api-favorites.component.html',
+    styleUrl: './person-api-favorites.component.scss'
 })
 export class PersonApiFavoritesComponent implements OnInit {
 
