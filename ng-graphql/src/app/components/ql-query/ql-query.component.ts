@@ -6,19 +6,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CopyComponent } from '../copy/copy.component';
 
 @Component({
-    selector: 'app-ql-query',
-    imports: [
-        MatButtonModule,
-        MatIconModule,
-        MatSnackBarModule,
-        MatTooltipModule,
-        CopyComponent,
-    ],
-    templateUrl: './ql-query.component.html',
-    styleUrl: './ql-query.component.scss'
+  selector: 'app-ql-query',
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    CopyComponent,
+  ],
+  templateUrl: './ql-query.component.html',
+  styleUrl: './ql-query.component.scss'
 })
 export class QlQueryComponent implements OnChanges {
-  @Input() query: string = '';
+  @Input()
+  query: string = '';
 
   protected rows: number = this.query.split('\n').length;
 
@@ -32,6 +33,7 @@ export class QlQueryComponent implements OnChanges {
 
   copyToClipboard(): void {
     if (!this.query) return;
+
     navigator.clipboard.writeText(this.query).then(() => {
       this._snackbar.open('Copied query to clipboard', '', {
         duration: 2000

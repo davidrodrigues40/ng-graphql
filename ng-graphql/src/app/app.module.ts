@@ -14,6 +14,8 @@ import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { BreadCrumbService } from './services/navigation/bread-crumbs/bread-crumb.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { DisplayModeToggleComponent } from "./components/display-mode-toggle/display-mode-toggle.component";
+import { LogoComponent } from "./components/logo/logo.component";
 
 @NgModule({
     declarations: [
@@ -32,7 +34,9 @@ import { MatIconModule } from '@angular/material/icon';
         RouterModule,
         MenuComponent,
         MatSlideToggleModule,
-        MatIconModule
+        MatIconModule,
+        DisplayModeToggleComponent,
+        LogoComponent
     ],
     bootstrap: [AppComponent],
     providers: [

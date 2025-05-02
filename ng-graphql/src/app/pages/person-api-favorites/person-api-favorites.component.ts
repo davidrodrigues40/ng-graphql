@@ -1,14 +1,7 @@
 import { Component, inject, OnInit, WritableSignal } from '@angular/core';
 import { GraphQlMenuComponent } from "../../components/graph-ql-menu/graph-ql-menu.component";
 import { QlQueryComponent } from "../../components/ql-query/ql-query.component";
-import {
-  Field,
-  Operator,
-  RequestVariables,
-  SEARCH_QUERY_NAME,
-  SearchQueryBuilder,
-  Variable,
-} from 'query-builder';
+import { Field, Operator, RequestVariables, SearchQueryBuilder, Variable } from 'query-builder';
 import { MatButtonModule } from '@angular/material/button';
 import { QlVariablesComponent } from "../../components/ql-variables/ql-variables.component";
 import { CommonModule } from '@angular/common';
@@ -17,41 +10,47 @@ import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
 import { GraphQlResponse, PersonState } from 'src/app/state/person.state';
 import { QlResponseComponent } from 'src/app/components/ql-response/ql-response.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AppState } from 'src/app/state/app.state';
+import { FavoritesTabComponent } from './components/favorites-tab/favorites-tab.component';
+import { PageTitleComponent } from 'src/app/components/page-title/page-title.component';
 
 @Component({
-    selector: 'app-person-api-favorites',
-    imports: [
-        GraphQlMenuComponent,
-        QlQueryComponent,
-        MatButtonModule,
-        QlVariablesComponent,
-        CommonModule,
-        MatTabsModule,
-        QlResponseComponent,
-        MatSlideToggleModule
-    ],
-    providers: [
-        GraphQlService,
-        { provide: SEARCH_QUERY_NAME, useValue: 'persons' },
-        SearchQueryBuilder
-    ],
-    templateUrl: './person-api-favorites.component.html',
-    styleUrl: './person-api-favorites.component.scss'
+  selector: 'app-person-api-favorites',
+  imports: [
+    GraphQlMenuComponent,
+    QlQueryComponent,
+    MatButtonModule,
+    QlVariablesComponent,
+    CommonModule,
+    MatTabsModule,
+    QlResponseComponent,
+    MatSlideToggleModule,
+    FavoritesTabComponent,
+    PageTitleComponent,
+  ],
+  providers: [
+    GraphQlService,
+    SearchQueryBuilder
+  ],
+  templateUrl: './person-api-favorites.component.html',
+  styleUrl: './person-api-favorites.component.scss'
 })
 export class PersonApiFavoritesComponent implements OnInit {
 
   private readonly _service: GraphQlService = inject(GraphQlService);
   private builder: SearchQueryBuilder = inject(SearchQueryBuilder);
+
   protected query: WritableSignal<string> = PersonState.query;
+  private readonly searchTermName: string = 'searchTerm';
+
   protected variables: WritableSignal<RequestVariables | undefined> = PersonState.variables;
   protected response: WritableSignal<GraphQlResponse> = PersonState.persons;
-  private readonly searchTermName: string = 'searchTerm';
   protected currentIndex: WritableSignal<number> = PersonState.tabIndex;
   protected readonly apiEnabled: WritableSignal<boolean> = PersonState.enableApi;
+  protected readonly clipboardText: WritableSignal<string> = AppState.clipboardText;
 
   ngOnInit(): void {
     this.getQuery();
-    console.log('enabled', this.apiEnabled());
   }
 
   protected tabChanged(event: MatTabChangeEvent): void {
@@ -107,7 +106,7 @@ export class PersonApiFavoritesComponent implements OnInit {
       .skip(0)
       .addVariable(new Variable(this.searchTermName, 'd3fd4a58-8978-4013-996d-02c1455abab1', String))
       .addAndCondition(new Field('personIdentifier'), Operator.EQ, `$${this.searchTermName}`)
-      .return('items.firstName');
+      .return('items.activeDisplayGradeAndFullName');
   }
 
   private getByDodId(): void {

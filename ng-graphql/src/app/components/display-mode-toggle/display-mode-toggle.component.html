@@ -1,0 +1,7 @@
+<p id="display-mode-toggle"
+   class="theme-toggle">
+    <mat-icon>light_mode</mat-icon>
+    <mat-slide-toggle (change)="onThemeChange($event)"
+                      [checked]="darkModeEnabled"></mat-slide-toggle>
+    <mat-icon>dark_mode</mat-icon>
+</p>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './pages/home/home.component';
 import { GraphQlViewComponent } from './pages/graph-ql-view/graph-ql-view.component';
 import { PersonApiFavoritesComponent } from './pages/person-api-favorites/person-api-favorites.component';
 

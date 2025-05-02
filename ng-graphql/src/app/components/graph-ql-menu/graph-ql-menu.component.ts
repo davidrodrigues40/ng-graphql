@@ -4,20 +4,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationItem } from 'src/app/services/navigation/navigation-item';
 
 @Component({
-    selector: 'app-graph-ql-menu',
-    imports: [
-        MatButtonModule
-    ],
-    providers: [
-        Router
-    ],
-    templateUrl: './graph-ql-menu.component.html',
-    styleUrl: './graph-ql-menu.component.scss'
+  selector: 'app-graph-ql-menu',
+  standalone: true,
+  imports: [
+    MatButtonModule
+  ],
+  providers: [
+    Router
+  ],
+  templateUrl: './graph-ql-menu.component.html',
+  styleUrl: './graph-ql-menu.component.scss'
 })
 export class GraphQlMenuComponent {
 
-  private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
+
+  constructor(private readonly activatedRoute: ActivatedRoute) {
+    this.activatedRoute = activatedRoute;
+  }
 
   protected menuItems: NavigationItem[] = [
     {

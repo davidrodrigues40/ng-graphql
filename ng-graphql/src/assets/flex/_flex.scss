@@ -1,4 +1,4 @@
-@import "../variables";
+@use "../variables" as vars;
 
 .display-flex {
     display: flex;
@@ -7,37 +7,37 @@
 .flex {
     &-row-gap {
         &--base {
-            row-gap: $gap;
+            row-gap: vars.$gap;
         }
 
         &--sm {
-            row-gap: $gap * 0.5;
+            row-gap: vars.$gap * 0.5;
         }
 
         &--lg {
-            row-gap: $gap * 1.5;
+            row-gap: vars.$gap * 1.5;
         }
 
         &--xl {
-            row-gap: $gap * 3;
+            row-gap: vars.$gap * 3;
         }
     }
 
     &-col-gap {
         &--base {
-            column-gap: $gap;
+            column-gap: vars.$gap;
         }
 
         &--sm {
-            column-gap: $gap * 0.5;
+            column-gap: vars.$gap * 0.5;
         }
 
         &--lg {
-            column-gap: $gap * 2;
+            column-gap: vars.$gap * 2;
         }
 
         &--xl {
-            column-gap: $gap * 3;
+            column-gap: vars.$gap * 3;
         }
     }
 

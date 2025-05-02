@@ -1,20 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { GraphQlMenuComponent } from './graph-ql-menu.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MockBuilder, MockRender } from 'ng-mocks';
 
-describe('GraphQlMenuComponent', () => {
+fdescribe('GraphQlMenuComponent', () => {
   let component: GraphQlMenuComponent;
-  let fixture: ComponentFixture<GraphQlMenuComponent>;
+  let activatedRoute: jasmine.SpyObj<ActivatedRoute> = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', ['snapshot']);
+  let router: Router = jasmine.createSpyObj<Router>('Router', ['navigate']);
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [GraphQlMenuComponent]
-    })
-    .compileComponents();
+    await TestBed.configureTestingModule(
+      MockBuilder(GraphQlMenuComponent)
+        .mock(ActivatedRoute, activatedRoute)
+        .mock(Router, router)
+        .build())
+      .compileComponents();
 
-    fixture = TestBed.createComponent(GraphQlMenuComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = MockRender(GraphQlMenuComponent).point.componentInstance;
   });
 
   it('should create', () => {

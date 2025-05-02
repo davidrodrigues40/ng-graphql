@@ -1,11 +1,12 @@
-@import 'src/assets/formatting';
-@import 'src/assets/variables';
+@use 'src/assets/variables' as vars;
+@use 'src/assets/flex/flex';
+@forward 'src/assets/formatting';
 
 
 .bottom-link {
     position: fixed;
     bottom: 0;
-    padding: $gap * 5;
+    padding: vars.$gap * 5;
     left: 0;
     right: 0;
     white-space: nowrap;

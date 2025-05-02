@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MenuComponent } from '../menu/menu.component';
+import { MenuComponent } from '../../components/menu/menu.component';
+import { PageTitleComponent } from 'src/app/components/page-title/page-title.component';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
+    standalone: true,
     imports: [
         MenuComponent,
-        MatButtonModule
+        MatButtonModule,
+        PageTitleComponent
     ]
 })
 export class HomeComponent {

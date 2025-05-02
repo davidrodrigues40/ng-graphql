@@ -4,7 +4,7 @@
             type="button"
             (click)="copyToClipboard()"
             [disabled]="text.length === 0"
-            [matTooltip]="tooltip"
+            [matTooltip]="tooltip()"
             matTooltipPosition="above">
         <mat-icon>content_copy</mat-icon>
     </button>

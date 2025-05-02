@@ -23,10 +23,10 @@
 
 .page-content {
     padding: vars.$gap;
-    align-items: flex-start;
-}
-
-.theme-toggle {
     display: flex;
-    column-gap: 16px;
+    justify-content: space-evenly;
+
+    &>router-outlet {
+        display: none;
+    }
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PdfComponent } from './pdf.component';
+import { FavoritesTabComponent } from './favorites-tab.component';
 
-describe('PdfComponent', () => {
-  let component: PdfComponent;
-  let fixture: ComponentFixture<PdfComponent>;
+describe('FavoritesTabComponent', () => {
+  let component: FavoritesTabComponent;
+  let fixture: ComponentFixture<FavoritesTabComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PdfComponent]
+      imports: [FavoritesTabComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PdfComponent);
+    fixture = TestBed.createComponent(FavoritesTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

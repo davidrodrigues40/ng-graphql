@@ -3,15 +3,15 @@ import { Component, Input, OnChanges, OnInit, signal, SimpleChanges, WritableSig
 import { GraphQlResponse } from 'src/app/state/person.state';
 
 @Component({
-    selector: 'app-ql-response',
-    imports: [
-        CommonModule
-    ],
-    templateUrl: './ql-response.component.html',
-    styleUrl: './ql-response.component.scss'
+  selector: 'app-ql-response',
+  imports: [
+    CommonModule
+  ],
+  templateUrl: './ql-response.component.html',
+  styleUrl: './ql-response.component.scss'
 })
 export class QlResponseComponent implements OnInit, OnChanges {
-  @Input() response: GraphQlResponse = {
+  @Input({ required: true }) response: GraphQlResponse = {
     data: {}
   };
 

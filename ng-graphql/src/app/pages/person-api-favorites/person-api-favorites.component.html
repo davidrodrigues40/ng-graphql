@@ -1,27 +1,13 @@
 <div>
     <div class="query-builder-section">
-        <h1>Person API - GraphQL Common Queries</h1>
+        <app-page-title>Person API - GraphQL Common Queries</app-page-title>
         <div id="menu"
              class="query-builder-section">
             <app-graph-ql-menu></app-graph-ql-menu>
         </div>
     </div>
     <div class="query-builder-section">
-        <mat-tab-group mat-stretch-tabs="false"
-                       backgroundColor="primary"
-                       color="primary"
-                       [selectedIndex]="currentIndex()"
-                       (selectedTabChange)="tabChanged($event)"
-                       selectedIndex="0">
-            <mat-tab id="person-id"
-                     label="Get By Person Id"> </mat-tab>
-            <mat-tab id="person-identifier"
-                     label="Get By Person Identifier"> </mat-tab>
-            <mat-tab id="dod-id"
-                     label="Get By DodId"> </mat-tab>
-            <mat-tab id="search"
-                     label="Get By Common Fields"> </mat-tab>
-        </mat-tab-group>
+        <app-favorites-tab (tabChanged)="tabChanged($event)"></app-favorites-tab>
     </div>
     <div class="query-builder-section">
         <mat-slide-toggle (toggleChange)="setApiStatus()"
@@ -39,3 +25,4 @@
             <app-ql-response [response]="response()"></app-ql-response>
         </div>
     </div>
+</div>

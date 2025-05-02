@@ -5,6 +5,7 @@ import { QueryBuilderComponent } from 'src/app/components/query-builder/query-bu
 
 @Component({
     selector: 'app-graph-ql-view',
+    standalone: true,
     imports: [
         QueryBuilderComponent,
         GraphQlMenuComponent

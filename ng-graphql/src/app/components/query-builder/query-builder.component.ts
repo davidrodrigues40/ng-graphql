@@ -24,38 +24,39 @@ import { QlVariablesComponent } from "../ql-variables/ql-variables.component";
 import { QlResponseComponent } from '../ql-response/ql-response.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GraphQlResponse, PersonState } from 'src/app/state/person.state';
+import { QueryBuilderState } from 'src/app/state/query-builder.state';
 @Component({
-    selector: 'app-query-builder',
-    imports: [
-        MatButtonModule,
-        CommonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        MatChipsModule,
-        MatIconModule,
-        MatExpansionModule,
-        MatSlideToggleModule,
-        MatSelectModule,
-        SearchTypeSelectorComponent,
-        QlQueryComponent,
-        QlVariablesComponent,
-        QlResponseComponent,
-        MatSnackBarModule,
-    ],
-    providers: [
-        GraphQlService,
-        { provide: SEARCH_QUERY_NAME, useValue: 'persons' },
-        SearchQueryBuilder,
-    ],
-    templateUrl: './query-builder.component.html',
-    styleUrl: './query-builder.component.scss'
+  selector: 'app-query-builder',
+  imports: [
+    MatButtonModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatChipsModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    SearchTypeSelectorComponent,
+    QlQueryComponent,
+    QlVariablesComponent,
+    QlResponseComponent,
+    MatSnackBarModule,
+  ],
+  providers: [
+    GraphQlService,
+    { provide: SEARCH_QUERY_NAME, useValue: 'persons' },
+    SearchQueryBuilder,
+  ],
+  templateUrl: './query-builder.component.html',
+  styleUrl: './query-builder.component.scss'
 })
 export class QueryBuilderComponent {
 
   take: number = 10;
   skip: number = 0;
-  query: string = '';
+  query: WritableSignal<string> = QueryBuilderState.query;
   fieldName: string = '';
   fieldNames: string[] = [];
   searchTerm: string = '';
@@ -88,7 +89,7 @@ export class QueryBuilderComponent {
       });
       let request: QueryPayload = this.builder.build('persons');
 
-      this.query = request.query;
+      this.query.set(request.query);
       this.request = request;
 
       this.rows = request.query.split('\n').length;
@@ -98,7 +99,7 @@ export class QueryBuilderComponent {
       else
         this.openedPanel$.set(1);
     } catch (e: any) {
-      this.query = e.message;
+      this.query.set(e.message);
     }
   }
 
@@ -121,7 +122,7 @@ export class QueryBuilderComponent {
   }
 
   clear(): void {
-    this.query = '';
+    this.query.set('');
     this.request = undefined;
     this.fieldName = '';
     this.fieldNames = [];
