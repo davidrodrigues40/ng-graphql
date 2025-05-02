@@ -1,19 +1,45 @@
+@use 'src/assets/variables' as vars;
 @use '@angular/material' as mat;
-@import '@angular/material/prebuilt-themes/azure-blue.css';
-@import 'src/assets/variables';
-@import 'src/assets/flex/flex';
+@forward '@angular/material/prebuilt-themes/azure-blue.css';
+$primary: mat.$azure-palette;
+$tertiary: mat.$blue-palette;
 
 html,
 body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: $font-size;
+  font-size: vars.$font-size;
   height: 100%;
   margin: 0;
+}
+
+body {
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
 }
 
 a,
 a:visited {
   text-decoration: none;
+}
+
+.light {
+  @include mat.theme((color: (theme-type: light,
+        primary: $primary,
+        tertiary: $tertiary,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+}
+
+.dark {
+  @include mat.theme((color: (theme-type: dark,
+        primary: $primary,
+        tertiary: $tertiary,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
 }
 
 // label,

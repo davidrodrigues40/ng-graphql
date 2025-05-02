@@ -18,6 +18,13 @@
                <div>Graph QL</div>
           </a>
      </div>
+     <div>
+          <p class="theme-toggle">
+               <mat-icon>light_mode</mat-icon>
+               <mat-slide-toggle (change)="onThemeChange($event)"></mat-slide-toggle>
+               <mat-icon>dark_mode</mat-icon>
+          </p>
+     </div>
 </header>
 <div class="bread-crumbs">
      <app-breadcrumbs></app-breadcrumbs>

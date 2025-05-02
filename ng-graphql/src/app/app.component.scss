@@ -1,20 +1,19 @@
 @use "sass:map";
-@import 'src/assets/themes/theme';
-@import 'src/assets/variables';
-@import 'src/assets/formatting';
-@import 'src/styles';
+@use 'src/assets/variables' as vars;
+@use 'src/assets/themes/theme' as theme;
+@use 'src/assets/formatting' as format;
+@use 'src/assets/flex/flex';
 
 .bread-crumbs {
     height: 24px;
-    padding: $gap;
+    padding: vars.$gap;
 }
 
 .banner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: calc($gap/2);
-    border-bottom: 1px solid map.get($theme, secondary, 200);
+    padding: calc(vars.$gap/2);
 
     & a {
         text-decoration: none;
@@ -23,7 +22,11 @@
 }
 
 .page-content {
-    padding: $gap;
-    border-top: 1px solid map-get($theme, primary, 40);
+    padding: vars.$gap;
     align-items: flex-start;
+}
+
+.theme-toggle {
+    display: flex;
+    column-gap: 16px;
 }

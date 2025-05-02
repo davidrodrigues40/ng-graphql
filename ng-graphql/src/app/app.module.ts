@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { BreadCrumbService } from './services/navigation/bread-crumbs/bread-crumb.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -28,7 +30,9 @@ import { BreadCrumbService } from './services/navigation/bread-crumbs/bread-crum
         RouterLink,
         RouterLinkActive,
         RouterModule,
-        MenuComponent
+        MenuComponent,
+        MatSlideToggleModule,
+        MatIconModule
     ],
     bootstrap: [AppComponent],
     providers: [

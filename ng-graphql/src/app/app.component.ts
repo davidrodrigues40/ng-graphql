@@ -3,16 +3,17 @@ import { MenuComponent } from './components/menu/menu.component';
 import { BreadCrumbService } from './services/navigation/bread-crumbs/bread-crumb.service';
 import { Router, Event, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    providers: [
-        MenuComponent,
-        BreadCrumbService
-    ],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  providers: [
+    MenuComponent,
+    BreadCrumbService,
+  ],
+  standalone: false
 })
 export class AppComponent implements OnInit {
   constructor(private readonly _router: Router) { }
@@ -32,5 +33,9 @@ export class AppComponent implements OnInit {
         }
 
       });
+  }
+
+  protected onThemeChange(_: MatSlideToggleChange) {
+    document.body.classList.toggle('dark');
   }
 }

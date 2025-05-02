@@ -1,16 +1,17 @@
-@import 'src/assets/variables.scss';
+@use 'src/assets/variables.scss' as vars;
+@use 'src/assets/flex/flex.scss';
 
 .breadcrumbs {
-    color: $azure-blue;
     height: 25px;
+    display: flex;
 
     & a {
         cursor: pointer;
-        color: inherit;
+        color: var(--mat-sys-primary);
         text-decoration: none;
     }
 
     &-last {
-        color: $gray;
+        color: vars.$gray;
     }
 }
