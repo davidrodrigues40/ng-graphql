@@ -5,28 +5,29 @@
 @use 'src/assets/flex/flex';
 
 .bread-crumbs {
-    height: 24px;
-    padding: vars.$gap;
+   height: 24px;
+   padding: vars.$gap;
 }
 
 .banner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: calc(vars.$gap/2);
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: calc(vars.$gap/2);
 
-    & a {
-        text-decoration: none;
-        color: inherit;
-    }
+   & a {
+      text-decoration: none;
+      color: inherit;
+   }
 }
 
 .page-content {
-    padding: vars.$gap;
-    display: flex;
-    justify-content: space-evenly;
+   padding: vars.$gap;
+   display: flex;
+   justify-content: stretch;
+   align-items: center;
 
-    &>router-outlet {
-        display: none;
-    }
+   &>router-outlet {
+      display: none;
+   }
 }

@@ -8,25 +8,26 @@ import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-breadcrumbs',
-  templateUrl: './bread-crumbs.component.html',
-  styleUrls: ['./bread-crumbs.component.scss'],
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatButtonModule
-  ],
-  providers: [
-    BreadCrumbService,
-    Router
-  ],
-  standalone: true
+   selector: 'app-breadcrumbs',
+   templateUrl: './bread-crumbs.component.html',
+   styleUrls: ['./bread-crumbs.component.scss'],
+   imports: [
+      CommonModule,
+      MatIconModule,
+      MatButtonModule
+   ],
+   providers: [
+      BreadCrumbService,
+      Router
+   ],
+   standalone: true
 })
 export class BreadCrumbsComponent {
-  private readonly _router: Router = inject(Router);
-  breadcrumbs$: WritableSignal<NavigationItem[]> = BreadcrumbState.breadcrumbs;
+   private readonly _router: Router = inject(Router);
+   breadcrumbs$: WritableSignal<NavigationItem[]> = BreadcrumbState.breadcrumbs;
 
-  goto(item: NavigationItem): void {
-    this._router.navigateByUrl(item.url);
-  }
+   goto(item: NavigationItem): void {
+      console.log('breadcrumbs', item);
+      this._router.navigate([item.url]);
+   }
 }

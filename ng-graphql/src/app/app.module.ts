@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ProperCasePipe } from './pipes/proper-case.pipe';
-import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { RouteReuseStrategy, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { MenuComponent } from './components/menu/menu.component';
 import { BreadCrumbsComponent } from './components/bread-crumbs/bread-crumbs.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,33 +16,35 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { DisplayModeToggleComponent } from "./components/display-mode-toggle/display-mode-toggle.component";
 import { LogoComponent } from "./components/logo/logo.component";
+import { CustomRouteReuseStrategy } from './route-strategies/custom-route-strategy';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        ProperCasePipe,
-    ],
-    imports: [
-        BreadCrumbsComponent,
-        BrowserAnimationsModule,
-        BrowserModule,
-        AppRoutingModule,
-        MatSelectModule,
-        MatButtonModule,
-        RouterLink,
-        RouterLinkActive,
-        RouterModule,
-        MenuComponent,
-        MatSlideToggleModule,
-        MatIconModule,
-        DisplayModeToggleComponent,
-        LogoComponent
-    ],
-    bootstrap: [AppComponent],
-    providers: [
-        provideHttpClient(withInterceptorsFromDi()),
-        BreadCrumbService,
-        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-    ]
+   declarations: [
+      AppComponent,
+      ProperCasePipe,
+   ],
+   imports: [
+      BreadCrumbsComponent,
+      BrowserAnimationsModule,
+      BrowserModule,
+      AppRoutingModule,
+      MatSelectModule,
+      MatButtonModule,
+      RouterLink,
+      RouterLinkActive,
+      RouterModule,
+      MenuComponent,
+      MatSlideToggleModule,
+      MatIconModule,
+      DisplayModeToggleComponent,
+      LogoComponent
+   ],
+   bootstrap: [AppComponent],
+   providers: [
+      provideHttpClient(withInterceptorsFromDi()),
+      BreadCrumbService,
+      { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+      { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy }
+   ]
 })
 export class AppModule { }

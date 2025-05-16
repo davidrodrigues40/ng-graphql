@@ -3,7 +3,7 @@ import { Component, inject, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RequestVariables } from 'query-builder';
+import { RequestVariables } from 'force-ng-graphql';
 import { CopyComponent } from '../copy/copy.component';
 
 @Component({

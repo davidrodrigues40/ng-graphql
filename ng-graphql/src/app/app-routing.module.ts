@@ -1,30 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { GraphQlViewComponent } from './pages/graph-ql-view/graph-ql-view.component';
-import { PersonApiFavoritesComponent } from './pages/person-api-favorites/person-api-favorites.component';
 
 export const routes: Routes = [
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'graphql',
-    component: GraphQlViewComponent
-  },
-  {
-    path: 'person-api',
-    component: PersonApiFavoritesComponent
-  },
-  {
-    path: '**',
-    redirectTo: 'home'
-  }
+   {
+      path: 'home',
+      loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+   },
+   {
+      path: 'graphql',
+      loadComponent: () => import('./pages/graph-ql-view/graph-ql-view.component').then(m => m.GraphQlViewComponent)
+   },
+   {
+      path: 'person-api',
+      loadComponent: () => import('./pages/person-api-favorites/person-api-favorites.component').then(m => m.PersonApiFavoritesComponent)
+   },
+   {
+      path: '**',
+      redirectTo: 'home'
+   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+   imports: [RouterModule.forRoot(routes)],
+   exports: [RouterModule]
 })
 export class AppRoutingModule { }

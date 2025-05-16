@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "^19.2.9",
     "@angular/router": "^19.2.9",
     "ng-mocks": "^14.13.4",
-    "query-builder": "file:../../../ng-graphql-builder/ng-graphql-query-builder/graphql-builder/dist/query-builder",
+    "force-ng-graphql": "file:C:/src/repos/force-ng-graphQL/force-ng-graphql/dist/graphql-query-builder",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "^0.15.0"

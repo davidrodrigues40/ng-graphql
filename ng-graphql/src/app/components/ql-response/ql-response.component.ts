@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, signal, SimpleChanges, WritableSignal } from '@angular/core';
-import { GraphQlResponse } from 'src/app/state/person.state';
+import { GraphQlResponse } from 'force-ng-graphql';
 
 @Component({
   selector: 'app-ql-response',
   imports: [
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './ql-response.component.html',
   styleUrl: './ql-response.component.scss'

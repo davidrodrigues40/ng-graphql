@@ -1,15 +1,5 @@
 import { signal, WritableSignal } from '@angular/core';
-import { QueryPayload } from 'query-builder';
-
-export class GraphQlResponse {
-    data: { [key: string]: any } = {};
-
-    static emptyResponse(): GraphQlResponse {
-        return {
-            data: {}
-        };
-    }
-}
+import { GraphQlResponse, QueryPayload } from 'force-ng-graphql';
 
 export class PersonState {
     static readonly persons: WritableSignal<GraphQlResponse> = signal(GraphQlResponse.emptyResponse());

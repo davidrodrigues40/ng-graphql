@@ -1,28 +1,24 @@
 <div>
-    <div class="query-builder-section">
-        <app-page-title>Person API - GraphQL Common Queries</app-page-title>
-        <div id="menu"
-             class="query-builder-section">
-            <app-graph-ql-menu></app-graph-ql-menu>
-        </div>
-    </div>
-    <div class="query-builder-section">
-        <app-favorites-tab (tabChanged)="tabChanged($event)"></app-favorites-tab>
-    </div>
-    <div class="query-builder-section">
-        <mat-slide-toggle (toggleChange)="setApiStatus()"
-                          [checked]="apiEnabled()">Enable API</mat-slide-toggle>
-    </div>
-    <div class="query-builder-section">
-        <div class="query-builder-section">
-            <app-ql-query [query]="query()"></app-ql-query>
-        </div>
-        <div class="query-builder-section">
-            <app-ql-variables [variables]="variables()"></app-ql-variables>
-        </div>
+   <div class="query-builder-section">
+      <app-page-title>Person API - GraphQL Common Queries</app-page-title>
+   </div>
+   <div class="query-builder-section">
+      <app-favorites-tab (tabChanged)="tabChanged($event)"></app-favorites-tab>
+   </div>
+   <div class="query-builder-section">
+      <mat-slide-toggle (toggleChange)="setApiStatus()"
+                        [checked]="apiEnabled()">Enable API</mat-slide-toggle>
+   </div>
+   <div class="query-builder-section">
+      <div class="query-builder-section">
+         <app-ql-query [query]="query()"></app-ql-query>
+      </div>
+      <div class="query-builder-section">
+         <app-ql-variables [variables]="variables()"></app-ql-variables>
+      </div>
 
-        <div class="query-builder-section">
-            <app-ql-response [response]="response()"></app-ql-response>
-        </div>
-    </div>
+      <div class="query-builder-section">
+         <app-ql-response [response]="response()"></app-ql-response>
+      </div>
+   </div>
 </div>
