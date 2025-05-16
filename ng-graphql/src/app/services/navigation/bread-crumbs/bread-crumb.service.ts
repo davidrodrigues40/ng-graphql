@@ -4,42 +4,40 @@ import { BreadcrumbState } from 'src/app/state/breadcrumb.state';
 
 @Injectable()
 export class BreadCrumbService {
-  static readonly homeLink: NavigationItem = { name: 'Home', url: '' }
-  static readonly graphQlLink: NavigationItem = { name: 'GraphQL', url: 'graphql' }
-  static readonly personApiLink: NavigationItem = { name: 'Person API', url: 'person-api' }
+   static readonly homeLink: NavigationItem = { name: 'Home', url: '' }
+   static readonly graphQlLink: NavigationItem = { name: 'GraphQL', url: 'graphql' }
+   static readonly personApiLink: NavigationItem = { name: 'Person API', url: 'person-api' }
 
-  private static readonly _links: Array<NavigationItem> = [
-    BreadCrumbService.homeLink,
-    BreadCrumbService.graphQlLink,
-    BreadCrumbService.personApiLink
-  ];
+   private static readonly _links: Array<NavigationItem> = [
+      BreadCrumbService.homeLink,
+      BreadCrumbService.graphQlLink,
+      BreadCrumbService.personApiLink
+   ];
 
-  constructor() { }
+   getIndex(url: string): number {
+      return BreadCrumbService._links.findIndex(link => link.url === url);
+   }
 
-  getIndex(url: string): number {
-    return BreadCrumbService._links.findIndex(link => link.url === url);
-  }
+   setBreadcrumbs(index: number): void {
+      if (index > -1)
+         BreadcrumbState.breadcrumbs.set(BreadCrumbService._links.slice(0, index + 1));
+      else
+         BreadcrumbState.breadcrumbs.set([BreadCrumbService.homeLink]);
+   }
 
-  setBreadcrumbs(index: number): void {
-    if (index > -1)
-      BreadcrumbState.breadcrumbs.set(BreadCrumbService._links.slice(0, index + 1));
-    else
-      BreadcrumbState.breadcrumbs.set([BreadCrumbService.homeLink]);
-  }
+   addBreadcrumb(breadcrumb: NavigationItem): void {
+      const breadcrumbs = BreadcrumbState.breadcrumbs();
+      breadcrumbs.push(breadcrumb);
+      BreadcrumbState.breadcrumbs.set(breadcrumbs);
+   }
 
-  addBreadcrumb(breadcrumb: NavigationItem): void {
-    const breadcrumbs = BreadcrumbState.breadcrumbs();
-    breadcrumbs.push(breadcrumb);
-    BreadcrumbState.breadcrumbs.set(breadcrumbs);
-  }
+   gotoBreadcrumb(breadcrumb: NavigationItem): void {
+      const index = BreadCrumbService._links.findIndex(link => link.url === breadcrumb.url);
 
-  gotoBreadcrumb(breadcrumb: NavigationItem): void {
-    const index = BreadCrumbService._links.findIndex(link => link.url === breadcrumb.url);
-
-    if (index > -1) {
-      BreadcrumbState.breadcrumbs.set(BreadCrumbService._links.slice(0, index + 1));
-    } else {
-      this.setBreadcrumbs(0);
-    }
-  }
+      if (index > -1) {
+         BreadcrumbState.breadcrumbs.set(BreadCrumbService._links.slice(0, index + 1));
+      } else {
+         this.setBreadcrumbs(0);
+      }
+   }
 }

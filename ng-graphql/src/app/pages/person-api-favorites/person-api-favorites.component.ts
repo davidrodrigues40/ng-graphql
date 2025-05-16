@@ -23,13 +23,14 @@ import { PersonSearchService } from 'src/app/services/person/person-search.servi
 @Component({
    selector: 'app-person-api-favorites',
    imports: [
+      CommonModule,
+      MatTabsModule,
+      MatSlideToggleModule,
+
       QlQueryComponent,
       MatButtonModule,
       QlVariablesComponent,
-      CommonModule,
-      MatTabsModule,
       QlResponseComponent,
-      MatSlideToggleModule,
       FavoritesTabComponent,
       PageTitleComponent,
    ],

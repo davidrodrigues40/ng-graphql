@@ -1,35 +1,39 @@
 import { PersonApiFavoritesComponent } from './person-api-favorites.component';
-import { PersonState } from 'src/app/state/person.state';
-import { GraphQlService } from 'src/app/services/graph-ql/graphql.service';
 import { GraphQlSearchQueryBuilder } from 'force-ng-graphql';
-import { MockBuilder, MockRender } from 'ng-mocks';
+import { MockComponent } from 'ng-mocks';
+import { PageTitleComponent } from 'src/app/components/page-title/page-title.component';
+import { QlQueryComponent } from 'src/app/components/ql-query/ql-query.component';
+import { QlResponseComponent } from 'src/app/components/ql-response/ql-response.component';
+import { QlVariablesComponent } from 'src/app/components/ql-variables/ql-variables.component';
+import { FavoritesTabComponent } from './components/favorites-tab/favorites-tab.component';
+import { TestBed } from '@angular/core/testing';
+import { PersonSearchService } from 'src/app/services/person/person-search.service';
 
 describe('PersonApiFavoritesComponent', () => {
    let component: PersonApiFavoritesComponent;
-   let graphQlService = jasmine.createSpyObj<GraphQlService>('GraphQlService', ['Query']);
+   let personSearchService = jasmine.createSpyObj<PersonSearchService>('PersonSearchService', ['search']);
    let searchQueryBuilder = jasmine.createSpyObj<GraphQlSearchQueryBuilder>('SearchQueryBuilder', ['build']);
 
    beforeEach(async () => {
-      await MockBuilder(PersonApiFavoritesComponent)
-         .mock(GraphQlService, graphQlService)
-         .mock(GraphQlSearchQueryBuilder, searchQueryBuilder)
+      await TestBed.configureTestingModule({
+         imports: [
+            MockComponent(QlQueryComponent),
+            MockComponent(QlResponseComponent),
+            MockComponent(QlVariablesComponent),
+            MockComponent(FavoritesTabComponent),
+            MockComponent(PageTitleComponent),
+         ],
+         providers: [
+            PersonApiFavoritesComponent,
+            { provide: PersonSearchService, useValue: personSearchService },
+            { provide: GraphQlSearchQueryBuilder, useValue: searchQueryBuilder },
+         ],
+      }).compileComponents();
 
-      component = MockRender(PersonApiFavoritesComponent).point.componentInstance;
+      component = TestBed.inject(PersonApiFavoritesComponent);
    });
 
    it('should create', () => {
       expect(component).toBeTruthy();
-   });
-
-   it('should have a query', () => {
-
-      PersonState.query.set('query');
-
-      expect(PersonState.query()).toBe('query');
-   });
-
-   it('should have empty state', () => {
-      PersonState.query.update(() => '');
-      expect(PersonState.query()).toEqual('');
    });
 });

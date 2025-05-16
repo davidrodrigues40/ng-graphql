@@ -19,10 +19,7 @@ import { NavigationItem } from 'src/app/services/navigation/navigation-item';
 export class GraphQlMenuComponent {
 
    private readonly router = inject(Router);
-
-   constructor(private readonly activatedRoute: ActivatedRoute) {
-      this.activatedRoute = activatedRoute;
-   }
+   private readonly activatedRoute = inject(ActivatedRoute);
 
    protected menuItems: NavigationItem[] = [
       {
