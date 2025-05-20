@@ -4,7 +4,7 @@ import { BreadCrumbService } from 'src/app/services/navigation/bread-crumbs/brea
 import { MatIconModule } from '@angular/material/icon';
 import { NavigationItem } from 'src/app/services/navigation/navigation-item';
 import { BreadcrumbState } from 'src/app/state/breadcrumb.state';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -14,7 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
    imports: [
       CommonModule,
       MatIconModule,
-      MatButtonModule
+      MatButtonModule,
+      RouterModule
    ],
    providers: [
       BreadCrumbService,
@@ -24,10 +25,10 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class BreadCrumbsComponent {
    private readonly _router: Router = inject(Router);
+   private readonly _breadCrumbService: BreadCrumbService = inject(BreadCrumbService);
    breadcrumbs$: WritableSignal<NavigationItem[]> = BreadcrumbState.breadcrumbs;
 
    goto(item: NavigationItem): void {
-      console.log('breadcrumbs', item);
-      this._router.navigate([item.url]);
+      this._breadCrumbService.gotoBreadcrumb(item);
    }
 }

@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NavigationItem } from '../navigation-item';
 import { BreadcrumbState } from 'src/app/state/breadcrumb.state';
+import { NavigationService } from '../navigation.service';
 
 @Injectable()
 export class BreadCrumbService {
-   static readonly homeLink: NavigationItem = { name: 'Home', url: '' }
-   static readonly graphQlLink: NavigationItem = { name: 'GraphQL', url: 'graphql' }
-   static readonly personApiLink: NavigationItem = { name: 'Person API', url: 'person-api' }
+   static readonly homeLink: NavigationItem = { name: 'Home', url: '' };
+   static readonly graphQlLink: NavigationItem = { name: 'GraphQL', url: 'graphql' };
+   static readonly personApiLink: NavigationItem = { name: 'Person API', url: 'person-api' };
 
+   private readonly _navigationService: NavigationService = inject(NavigationService);
    private static readonly _links: Array<NavigationItem> = [
       BreadCrumbService.homeLink,
       BreadCrumbService.graphQlLink,
@@ -39,5 +41,7 @@ export class BreadCrumbService {
       } else {
          this.setBreadcrumbs(0);
       }
+
+      this._navigationService.navigate(breadcrumb);
    }
 }

@@ -1,17 +1,17 @@
 <div class="display-flex flex-col-gap--sm align-items--center breadcrumbs">
-    @for(breadcrumb of breadcrumbs$(); track breadcrumb; let last = $last){
-    @if (last) {
-    <div>
-        <span class="breadcrumbs-last">{{breadcrumb.name}}</span>
-    </div>
-    }
-    @else
-    {
-    <div>
-        <a href="javascript:void(0)"
-           (click)="goto(breadcrumb)">{{breadcrumb.name}}</a>
-    </div>
-    <span>-</span>
-    }
-    }
+   @for(breadcrumb of breadcrumbs$(); track breadcrumb; let last = $last){
+   @if (last) {
+   <div>
+      <span class="breadcrumbs-last">{{breadcrumb.name}}</span>
+   </div>
+   }
+   @else
+   {
+   <div>
+      <a href="javascript:void(0)"
+         (click)="goto(breadcrumb)">{{breadcrumb.name}}</a>
+   </div>
+   <span>-</span>
+   }
+   }
 </div>
