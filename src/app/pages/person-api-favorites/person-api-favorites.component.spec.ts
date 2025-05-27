@@ -1,5 +1,4 @@
 import { PersonApiFavoritesComponent } from './person-api-favorites.component';
-import { GraphQlSearchQueryBuilder } from 'force-ng-graphql';
 import { MockComponent } from 'ng-mocks';
 import { PageTitleComponent } from 'src/app/components/page-title/page-title.component';
 import { QlQueryComponent } from 'src/app/components/ql-query/ql-query.component';
@@ -8,6 +7,7 @@ import { QlVariablesComponent } from 'src/app/components/ql-variables/ql-variabl
 import { FavoritesTabComponent } from './components/favorites-tab/favorites-tab.component';
 import { TestBed } from '@angular/core/testing';
 import { PersonSearchService } from 'src/app/services/person/person-search.service';
+import { GraphQlSearchQueryBuilder } from '@bamtechnologies/force-ng-graphql';
 
 describe('PersonApiFavoritesComponent', () => {
    let component: PersonApiFavoritesComponent;

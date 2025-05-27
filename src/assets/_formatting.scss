@@ -3,20 +3,20 @@
 @import './variables';
 
 .section {
-    display: flex;
+   display: flex;
 
-    &-column {
-        flex-direction: column;
-        row-gap: $gap;
-    }
+   &-column {
+      flex-direction: column;
+      row-gap: $gap;
+   }
 
-    &-row {
-        flex-direction: row;
-        column-gap: $gap;
-        align-items: baseline;
+   &-row {
+      flex-direction: row;
+      column-gap: $gap;
+      align-items: baseline;
 
-        &--top {
-            align-items: flex-start;
-        }
-    }
+      &--top {
+         align-items: flex-start;
+      }
+   }
 }

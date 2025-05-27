@@ -1,1 +1,16 @@
-@import 'src/assets/query-builder.scss';
+@use 'src/assets/query-builder.scss';
+@use 'src/assets/variables' as vars;
+
+.person-api-favorites {
+   &-query-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      gap: vars.$gap;
+      width: 100%;
+
+      &>* {
+         flex-grow: 1;
+      }
+   }
+}

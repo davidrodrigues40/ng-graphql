@@ -23,11 +23,9 @@
 
 .page-content {
    padding: vars.$gap;
-   display: flex;
-   justify-content: space-evenly;
-   align-items: center;
 
-   &>router-outlet {
-      display: none;
+   &>*:not(router-outlet) {
+      width: 100%;
+      flex-grow: 1;
    }
 }

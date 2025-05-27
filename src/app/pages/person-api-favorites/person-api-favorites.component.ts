@@ -19,6 +19,7 @@ import {
    GraphQlResponse,
 } from '@bamtechnologies/force-ng-graphql';
 import { PersonSearchService } from 'src/app/services/person/person-search.service';
+import { TsViewerComponent } from "../../components/ts-viewer/ts-viewer.component";
 
 @Component({
    selector: 'app-person-api-favorites',
@@ -26,13 +27,13 @@ import { PersonSearchService } from 'src/app/services/person/person-search.servi
       CommonModule,
       MatTabsModule,
       MatSlideToggleModule,
-
       QlQueryComponent,
       MatButtonModule,
       QlVariablesComponent,
       QlResponseComponent,
       FavoritesTabComponent,
       PageTitleComponent,
+      TsViewerComponent
    ],
    providers: [
       PersonSearchService,
@@ -44,16 +45,16 @@ import { PersonSearchService } from 'src/app/services/person/person-search.servi
 export class PersonApiFavoritesComponent implements OnInit {
 
    private readonly service: PersonSearchService = inject(PersonSearchService);
-   private readonly builder: GraphQlSearchQueryBuilder = inject(GraphQlSearchQueryBuilder);
-
-   protected query: WritableSignal<string> = PersonState.query;
    private readonly searchTermName: string = 'searchTerm';
 
+   protected query: WritableSignal<string> = PersonState.query;
    protected variables: WritableSignal<RequestVariables | undefined> = PersonState.variables;
    protected response: WritableSignal<GraphQlResponse> = PersonState.persons;
    protected currentIndex: WritableSignal<number> = PersonState.tabIndex;
    protected readonly apiEnabled: WritableSignal<boolean> = PersonState.enableApi;
    protected readonly clipboardText: WritableSignal<string> = AppState.clipboardText;
+   protected readonly builder: GraphQlSearchQueryBuilder = inject(GraphQlSearchQueryBuilder);
+   protected tsValue: string = '';
 
    ngOnInit(): void {
       this.getQuery();
@@ -103,6 +104,8 @@ export class PersonApiFavoritesComponent implements OnInit {
          .addVariable(Variable.createInstance(this.searchTermName, 355, Number))
          .addAndCondition(Field.createInstance('legacyPersonId'), Operator.EQ, this.searchTermName)
          .return(['items.firstName', 'items.lastName', 'items.activeDisplayGradeAndFullName', 'items.activeDodId']);
+
+      this.tsValue = "this.builder \n   .take(10) \n   .skip(0) \n   .addVariable(Variable.createInstance('searchTerm', 355, Number))\n   .addAndCondition(Field.createInstance('legacyPersonId'), Operator.EQ, 'searchTerm')\n   .return(['items.firstName', 'items.lastName', 'items.activeDisplayGradeAndFullName', 'items.activeDodId'])";
    }
 
    private getPersonByIdentifier(): void {
@@ -113,6 +116,8 @@ export class PersonApiFavoritesComponent implements OnInit {
          .addVariable(Variable.createInstance(this.searchTermName, 'd3fd4a58-8978-4013-996d-02c1455abab1', String))
          .addAndCondition(Field.createInstance('personIdentifier'), Operator.EQ, this.searchTermName)
          .return('items.activeDisplayGradeAndFullName');
+
+      this.tsValue = "this.builder \n   .take(10) \n   .skip(0) \n   .addVariable(Variable.createInstance('searchTerm', '00000000-0000-0000-0000-000000000000', String))\n   .addAndCondition(Field.createInstance('personIdentifier'), Operator.EQ, 'searchTerm')\n   .return('items.activeDisplayGradeAndFullName')";
    }
 
    private getByDodId(): void {
@@ -123,6 +128,8 @@ export class PersonApiFavoritesComponent implements OnInit {
          .addVariable(Variable.createInstance(this.searchTermName, '1234568091', String))
          .addAndCondition(Field.createInstance('activeDodId'), Operator.EQ, this.searchTermName)
          .return(['items.firstName', 'items.lastName', 'items.activeDisplayGradeAndFullName']);
+
+      this.tsValue = "this.builder \n   .take(10) \n   .skip(0) \n   .addVariable(Variable.createInstance('searchTerm', '1234568091', String))\n   .addAndCondition(Field.createInstance('activeDodId'), Operator.EQ, 'searchTerm')\n   .return(['items.firstName', 'items.lastName', 'items.activeDisplayGradeAndFullName'])";
    }
 
    private search(): void {
@@ -134,6 +141,8 @@ export class PersonApiFavoritesComponent implements OnInit {
          .addOrCondition(Field.createInstance('activeDodId'), Operator.CONTAINS, this.searchTermName)
          .addOrCondition(Field.createInstance('activeDisplayGradeAndFullName'), Operator.CONTAINS, this.searchTermName)
          .return(['totalCount', 'items.firstName', 'items.lastName', 'items.activeDisplayGradeAndFullName', 'items.activeDodId']);
+
+      this.tsValue = "this.builder \n   .take(10) \n   .skip(0) \n   .addVariable(Variable.createInstance('searchTerm', 'value', String))\n   .addOrCondition(Field.createInstance('activeDodId'), Operator.CONTAINS, 'searchTerm')\n   .addOrCondition(Field.createInstance('activeDisplayGradeAndFullName'), Operator.CONTAINS, 'searchTerm)\n   .return(['totalCount', 'items.firstName', 'items.lastName', 'items.activeDisplayGradeAndFullName', 'items.activeDodId'])";
    }
 
    private finish(): void {
