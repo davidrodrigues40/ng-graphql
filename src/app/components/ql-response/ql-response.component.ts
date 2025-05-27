@@ -1,54 +1,54 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, signal, SimpleChanges, WritableSignal } from '@angular/core';
-import { GraphQlResponse } from 'force-ng-graphql';
+import { GraphQlResponse } from '@bamtechnologies/force-ng-graphql';
 
 @Component({
-  selector: 'app-ql-response',
-  imports: [
-    CommonModule,
-  ],
-  templateUrl: './ql-response.component.html',
-  styleUrl: './ql-response.component.scss'
+   selector: 'app-ql-response',
+   imports: [
+      CommonModule,
+   ],
+   templateUrl: './ql-response.component.html',
+   styleUrl: './ql-response.component.scss'
 })
 export class QlResponseComponent implements OnInit, OnChanges {
-  @Input({ required: true }) response: GraphQlResponse = {
-    data: {}
-  };
+   @Input({ required: true }) response: GraphQlResponse = {
+      data: {}
+   };
 
-  protected readonly responseTime: WritableSignal<number> = signal(0);
-  protected readonly rows: WritableSignal<number> = signal(0);
+   protected readonly responseTime: WritableSignal<number> = signal(0);
+   protected readonly rows: WritableSignal<number> = signal(0);
 
-  ngOnInit(): void {
-    this.setRows();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    if (changes['response'].currentValue) {
+   ngOnInit(): void {
       this.setRows();
-    }
-  }
+   }
 
-  setRows(): void {
-    if (!this.response) return;
+   ngOnChanges(changes: SimpleChanges): void {
 
-    let totalRows = 0;
-    totalRows += this.getObjectCount(this.response);
-
-    this.rows.set(totalRows - 1);
-  }
-
-  getObjectCount(obj: any): number {
-    let count = Object.keys(obj).length + 2;
-
-    for (let i in obj) {
-      if (obj[i] instanceof Object && !(obj[i] instanceof Array)) {
-        count += this.getObjectCount(obj[i]);
-      } else if (obj[i] instanceof Array) {
-        count += this.getObjectCount(obj[i][0]) * obj[i].length;
+      if (changes['response'].currentValue) {
+         this.setRows();
       }
-    }
+   }
 
-    return count;
-  }
+   setRows(): void {
+      if (!this.response) return;
+
+      let totalRows = 0;
+      totalRows += this.getObjectCount(this.response);
+
+      this.rows.set(totalRows - 1);
+   }
+
+   getObjectCount(obj: any): number {
+      let count = Object.keys(obj).length + 2;
+
+      for (let i in obj) {
+         if (obj[i] instanceof Object && !(obj[i] instanceof Array)) {
+            count += this.getObjectCount(obj[i]);
+         } else if (obj[i] instanceof Array) {
+            count += this.getObjectCount(obj[i][0]) * obj[i].length;
+         }
+      }
+
+      return count;
+   }
 }

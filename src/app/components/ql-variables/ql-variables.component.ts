@@ -3,42 +3,42 @@ import { Component, inject, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RequestVariables } from 'force-ng-graphql';
+import { RequestVariables } from '@bamtechnologies/force-ng-graphql';
 import { CopyComponent } from '../copy/copy.component';
 
 @Component({
-  selector: 'app-ql-variables',
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule,
-    CopyComponent,
-    CommonModule
-  ],
-  templateUrl: './ql-variables.component.html',
-  styleUrl: './ql-variables.component.scss'
+   selector: 'app-ql-variables',
+   imports: [
+      MatButtonModule,
+      MatIconModule,
+      MatSnackBarModule,
+      CopyComponent,
+      CommonModule
+   ],
+   templateUrl: './ql-variables.component.html',
+   styleUrl: './ql-variables.component.scss'
 })
 export class QlVariablesComponent {
-  @Input({ required: true }) variables: RequestVariables | undefined = undefined;
+   @Input({ required: true }) variables: RequestVariables | undefined = undefined;
 
-  private readonly pretty: JsonPipe = new JsonPipe();
-  private readonly _snackbar = inject(MatSnackBar);
+   private readonly pretty: JsonPipe = new JsonPipe();
+   private readonly _snackbar = inject(MatSnackBar);
 
-  getVariablesAsString(variable: RequestVariables | undefined): string {
-    if (!variable) return '';
+   getVariablesAsString(variable: RequestVariables | undefined): string {
+      if (!variable) return '';
 
-    return this.pretty.transform(variable);
-  }
+      return this.pretty.transform(variable);
+   }
 
-  getRows(): number {
-    if (!this.variables) return 0;
+   getRows(): number {
+      if (!this.variables) return 0;
 
-    let row = 2;
+      let row = 2;
 
-    for (const _ in this.variables) {
-      row += 1;
-    }
+      for (const _ in this.variables) {
+         row += 1;
+      }
 
-    return row;
-  }
+      return row;
+   }
 }

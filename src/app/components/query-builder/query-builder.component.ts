@@ -23,7 +23,7 @@ import {
    Operator,
    QueryPayload,
    Variable,
-} from 'force-ng-graphql';
+} from '@bamtechnologies/force-ng-graphql';
 import { PersonSearchService } from 'src/app/services/person/person-search.service';
 @Component({
    selector: 'app-query-builder',
